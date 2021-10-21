@@ -29,7 +29,7 @@ import uvloop
 from pyrogram import filters, idle
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from wbb import (BOT_NAME, BOT_USERNAME, LOG_GROUP_ID, USERBOT_NAME,
+from wbb import (BOT_NAME, BOT_USERNAME, LOG_GROUP_ID,
                  aiohttpsession, app)
 from wbb.modules import ALL_MODULES
 from wbb.modules.sudoers import bot_sys_stats
@@ -72,7 +72,6 @@ async def start_bot():
     print(bot_modules)
     print("+===============+===============+===============+===============+")
     print(f"[INFO]: BOT STARTED AS {BOT_NAME}!")
-    print(f"[INFO]: USERBOT STARTED AS {USERBOT_NAME}!")
 
     restart_data = await clean_restart_stage()
 
@@ -109,16 +108,13 @@ home_keyboard_pm = InlineKeyboardMarkup(
             ),
             InlineKeyboardButton(
                 text="Repo 🛠",
-                url="https://github.com/thehamkercat/WilliamButcherBot",
+                url="https://github.com/rozari0/NezukoBot",
             ),
         ],
         [
             InlineKeyboardButton(
                 text="System Stats 🖥",
                 callback_data="stats_callback",
-            ),
-            InlineKeyboardButton(
-                text="Support 👨", url="http://t.me/WBBSupport"
             ),
         ],
         [
@@ -146,7 +142,7 @@ keyboard = InlineKeyboardMarkup(
             ),
             InlineKeyboardButton(
                 text="Repo 🛠",
-                url="https://github.com/thehamkercat/WilliamButcherBot",
+                url="https://github.com/rozari0/NezukoBot",
             ),
         ],
         [
@@ -154,7 +150,6 @@ keyboard = InlineKeyboardMarkup(
                 text="System Stats 💻",
                 callback_data="stats_callback",
             ),
-            InlineKeyboardButton(text="Support 👨", url="t.me/WBBSupport"),
         ],
     ]
 )
@@ -163,8 +158,8 @@ keyboard = InlineKeyboardMarkup(
 @app.on_message(filters.command("start"))
 async def start(_, message):
     if message.chat.type != "private":
-        return await message.reply(
-            "Pm Me For More Details.", reply_markup=keyboard
+        return await message.reply_photo(photo="https://cdn.awwni.me/2gj9h.jpg",
+            caption="Pm Me For More Details.", reply_markup=keyboard
         )
     if len(message.text.split()) > 1:
         name = (message.text.split(None, 1)[1]).lower()
@@ -186,8 +181,8 @@ async def start(_, message):
                 reply_markup=keyb,
             )
     else:
-        await message.reply(
-            home_text_pm,
+        await message.reply_photo(photo="https://cdn.awwni.me/2gj9h.jpg",
+            caption=home_text_pm,
             reply_markup=home_keyboard_pm,
         )
     return

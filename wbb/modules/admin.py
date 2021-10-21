@@ -202,7 +202,10 @@ async def kickFunc(_, message: Message):
     if message.command[0][0] == "d":
         await message.reply_to_message.delete()
     await message.chat.kick_member(user_id)
-    await message.reply_text(msg)
+    if msg == "The method requires chat admin privileges":
+        await message.reply_text("I'll kick you when I became human again. -.-")
+    else:
+        await message.reply_text(msg)
     await asyncio.sleep(1)
     await message.chat.unban_member(user_id)
 
@@ -620,7 +623,7 @@ async def report_user(_, message):
         return await message.reply_text(
           "Reply to a message to report that user."
         )
- 
+
     if message.reply_to_message.from_user.id == message.from_user.id:
         return await message.reply_text("Why are you reporting yourself ?")
 
@@ -629,7 +632,7 @@ async def report_user(_, message):
         return await message.reply_text(
           "Do you know that the user you are replying is an admin ?"
         )
- 
+
     user_mention = message.reply_to_message.from_user.mention
     text = f"Reported {user_mention} to admins!"
     for admin in list_of_admins:

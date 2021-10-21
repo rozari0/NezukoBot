@@ -28,7 +28,7 @@ import aiofiles
 from pyrogram import filters
 from pyrogram.types import Message
 
-from wbb import SUDOERS, USERBOT_PREFIX, app, app2, eor
+from wbb import SUDOERS, app, eor
 from wbb.core.decorators.errors import capture_err
 from wbb.core.keyboard import ikb
 from wbb.utils.pastebin import paste
@@ -38,9 +38,7 @@ __HELP__ = "/paste - To Paste Replied Text Or Document To A Pastebin"
 pattern = re.compile(r"^text/|json$|yaml$|xml$|toml$|x-sh$|x-shellscript$")
 
 
-@app2.on_message(
-    filters.command("paste", prefixes=USERBOT_PREFIX) & filters.user(SUDOERS)
-)
+
 @app.on_message(filters.command("paste") & ~filters.edited)
 @capture_err
 async def paste_func(_, message: Message):

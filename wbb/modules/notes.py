@@ -25,7 +25,7 @@ from re import findall
 
 from pyrogram import filters
 
-from wbb import SUDOERS, USERBOT_ID, USERBOT_PREFIX, app, app2, eor
+from wbb import SUDOERS, USERBOT_ID, app, eor
 from wbb.core.decorators.errors import capture_err
 from wbb.core.decorators.permissions import adminsOnly
 from wbb.core.keyboard import ikb
@@ -46,9 +46,6 @@ Checkout /markdownhelp to know more about formattings and other syntax.
 """
 
 
-@app2.on_message(
-    filters.command("save", prefixes=USERBOT_PREFIX) & filters.user(SUDOERS)
-)
 @app.on_message(filters.command("save") & ~filters.edited & ~filters.private)
 @adminsOnly("can_change_info")
 async def save_notee(_, message):
@@ -83,9 +80,7 @@ async def save_notee(_, message):
         await eor(message, text=f"__**Saved note {name}.**__")
 
 
-@app2.on_message(
-    filters.command("notes", prefixes=USERBOT_PREFIX) & filters.user(SUDOERS)
-)
+
 @app.on_message(filters.command("notes") & ~filters.edited & ~filters.private)
 @capture_err
 async def get_notes(_, message):
@@ -104,9 +99,6 @@ async def get_notes(_, message):
     await eor(message, text=msg)
 
 
-@app2.on_message(
-    filters.command("get", prefixes=USERBOT_PREFIX) & filters.user(SUDOERS)
-)
 async def get_one_note_userbot(_, message):
     if len(message.text.split()) < 2:
         return await eor(message, text="Invalid arguments")
@@ -155,9 +147,6 @@ async def get_one_note(_, message):
         await message.reply_sticker(_note["data"])
 
 
-@app2.on_message(
-    filters.command("delete", prefixes=USERBOT_PREFIX) & filters.user(SUDOERS)
-)
 @app.on_message(filters.command("delete") & ~filters.edited & ~filters.private)
 @adminsOnly("can_change_info")
 async def del_note(_, message):

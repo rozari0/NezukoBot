@@ -28,6 +28,7 @@ from html import escape
 from re import sub as re_sub
 from sys import version as pyver
 from time import ctime, time
+from jikanpy import Jikan
 
 from fuzzysearch import find_near_matches
 from motor import version as mongover
@@ -37,11 +38,11 @@ from pyrogram import filters
 from pyrogram.raw.functions import Ping
 from pyrogram.types import (CallbackQuery, InlineKeyboardButton,
                             InlineQueryResultArticle, InlineQueryResultPhoto,
-                            InputTextMessageContent)
+                            InputTextMessageContent,InlineKeyboardMarkup)
 from search_engine_parser import GoogleSearch
 
-from wbb import (BOT_USERNAME, MESSAGE_DUMP_CHAT, SUDOERS, USERBOT_ID,
-                 USERBOT_NAME, USERBOT_USERNAME, app, app2, arq)
+from wbb import (BOT_USERNAME,BOT_NAME, MESSAGE_DUMP_CHAT, SUDOERS, USERBOT_ID,
+                 app, arq)
 from wbb.core.keyboard import ikb
 from wbb.core.tasks import _get_tasks_text, all_tasks, rm_task
 from wbb.core.types import InlineQueryResultCachedDocument
@@ -66,7 +67,8 @@ keywords_list = [
     "google",
     "torrent",
     "wiki",
-    "music",
+    "anime",
+    "manga",
     "ytmusic",
 ]
 
@@ -93,9 +95,9 @@ async def inline_help_func(__HELP__):
             title="Github Repo",
             description="Get Github Respository Of Bot.",
             input_message_content=InputTextMessageContent(
-                "https://github.com/thehamkercat/WilliamButcherBot"
+                "https://github.com/rozari0/NezukoBot"
             ),
-            thumb_url="https://hamker.me/gjc9fo3.png",
+            thumb_url="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
         ),
     ]
     answerss = await alive_function(answerss)
@@ -105,7 +107,6 @@ async def inline_help_func(__HELP__):
 async def alive_function(answers):
     buttons = InlineKeyboard(row_width=2)
     bot_state = "Dead" if not await app.get_me() else "Alive"
-    ubot_state = "Dead" if not await app2.get_me() else "Alive"
     buttons.add(
         InlineKeyboardButton("Stats", callback_data="stats_callback"),
         InlineKeyboardButton(
@@ -114,20 +115,18 @@ async def alive_function(answers):
     )
 
     msg = f"""
-**[William✨](https://github.com/thehamkercat/WilliamButcherBot):**
+**[{BOT_NAME}](https://github.com/rozari0/NezukoBot):**
 **MainBot:** `{bot_state}`
-**UserBot:** `{ubot_state}`
 **Python:** `{pyver.split()[0]}`
 **Pyrogram:** `{pyrover}`
 **MongoDB:** `{mongover}`
 **Platform:** `{sys.platform}`
-**Profiles:** [BOT](t.me/{BOT_USERNAME}) | [UBOT](t.me/{USERBOT_USERNAME})
 """
     answers.append(
         InlineQueryResultArticle(
             title="Alive",
             description="Check Bot's Stats",
-            thumb_url="https://static2.aniimg.com/upload/20170515/414/c/d/7/cd7EEF.jpg",
+            thumb_url="https://i.ibb.co/RCRDDTy/nezuko.jpg",
             input_message_content=InputTextMessageContent(
                 msg, disable_web_page_preview=True
             ),
@@ -255,6 +254,53 @@ async def wall_func(answers, text):
         )
     return answers
 
+async def anime_func(answers, text):
+    jikan = Jikan()
+    results = jikan.search('anime', text, page=1)['results'][1:10]
+    for i in results:
+        reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton("Open In My Anime List", url=i['url'])
+                    ],
+                    [
+                        InlineKeyboardButton(text="Search Again",switch_inline_query_current_chat="anime")
+                    ]
+                ]
+            )
+        answers.append(
+            InlineQueryResultPhoto(
+                photo_url=i['image_url'],
+                thumb_url=i['image_url'],
+                caption=f"**Title**:{i['title']}\n**Type**:{i['type']}\n**Score**:{i['score']}\n**Episodes**:{i['episodes']}\n**Synopsis**:{i['synopsis']}",
+                reply_markup=reply_markup,
+            )
+        )
+    return answers
+
+async def manga_func(answers, text):
+    jikan = Jikan()
+    results = jikan.search('manga', text, page=1)['results'][1:10]
+    for i in results:
+        reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton("Open In My Anime List", url=i['url'])
+                    ],
+                    [
+                        InlineKeyboardButton(text="Search Again",switch_inline_query_current_chat="manga")
+                    ]
+                ]
+            )
+        answers.append(
+            InlineQueryResultPhoto(
+                photo_url=i['image_url'],
+                thumb_url=i['image_url'],
+                caption=f"**Title**:{i['title']}\n**Type**:{i['type']}\n**Chapters**:{i['chapters']}\n**Volumes**:{i['volumes']}\n**Score**:{i['score']}\n**Synopsis**:{i['synopsis']}",
+                reply_markup=reply_markup,
+            )
+        )
+    return answers
 
 async def torrent_func(answers, text):
     results = await arq.torrent(text)
@@ -429,50 +475,6 @@ async def tg_search_func(answers, text, user_id):
     return answers
 
 
-async def music_inline_func(answers, query):
-    chat_id = -1001445180719
-    group_invite = "https://t.me/joinchat/vSDE2DuGK4Y4Nzll"
-    try:
-        messages = [
-            m
-            async for m in app2.search_messages(
-                chat_id, query, filter="audio", limit=100
-            )
-        ]
-    except Exception as e:
-        print(e)
-        msg = f"You Need To Join Here With Your Bot And Userbot To Get Cached Music.\n{group_invite}"
-        answers.append(
-            InlineQueryResultArticle(
-                title="ERROR",
-                description="Click Here To Know More.",
-                input_message_content=InputTextMessageContent(
-                    msg, disable_web_page_preview=True
-                ),
-            )
-        )
-        return answers
-    messages_ids_and_duration = []
-    for f_ in messages:
-        messages_ids_and_duration.append(
-            {
-                "message_id": f_.message_id,
-                "duration": f_.audio.duration if f_.audio.duration else 0,
-            }
-        )
-    messages = list(
-        {v["duration"]: v for v in messages_ids_and_duration}.values()
-    )
-    messages_ids = [ff_["message_id"] for ff_ in messages]
-    messages = await app.get_messages(chat_id, messages_ids[0:48])
-    return [
-        InlineQueryResultCachedDocument(
-            file_id=message_.audio.file_id,
-            title=message_.audio.title,
-        )
-        for message_ in messages
-    ]
-
 
 async def wiki_func(answers, text):
     data = await arq.wiki(text)
@@ -551,39 +553,6 @@ async def test_speedtest_cq(_, cq):
 """
     await app.edit_inline_text(inline_message_id, msg)
 
-
-async def pmpermit_func(answers, user_id, victim):
-    if user_id != USERBOT_ID:
-        return
-    caption = f"Hi, I'm {USERBOT_NAME}, What are you here for?, You'll be blocked if you send more than 5 messages."
-    buttons = InlineKeyboard(row_width=2)
-    buttons.add(
-        InlineKeyboardButton(
-            text="To Scam You", callback_data="pmpermit to_scam_you a"
-        ),
-        InlineKeyboardButton(
-            text="For promotion",
-            callback_data="pmpermit to_scam_you a",
-        ),
-        InlineKeyboardButton(
-            text="Approve me", callback_data="pmpermit approve_me a"
-        ),
-        InlineKeyboardButton(
-            text="Approve", callback_data=f"pmpermit approve {victim}"
-        ),
-        InlineKeyboardButton(
-            text="Block & Delete",
-            callback_data=f"pmpermit block {victim}",
-        ),
-    )
-    answers.append(
-        InlineQueryResultArticle(
-            title="do_not_click_here",
-            reply_markup=buttons,
-            input_message_content=InputTextMessageContent(caption),
-        )
-    )
-    return answers
 
 
 async def ping_func(answers):

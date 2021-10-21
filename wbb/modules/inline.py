@@ -160,16 +160,30 @@ async def inline_query_handler(client, query):
                 query.id, results=answerss, cache_time=2
             )
 
-        elif text.split()[0] == "music":
+        elif text.split()[0] == "anime":
             if len(text.split()) < 2:
                 return await client.answer_inline_query(
                     query.id,
                     results=answers,
-                    switch_pm_text="Music Search | music [QUERY]",
+                    switch_pm_text="Anime Search | anime [QUERY]",
                     switch_pm_parameter="inline",
                 )
             tex = text.split(None, 1)[1].strip()
-            answerss = await music_inline_func(answers, tex)
+            answerss = await anime_func(answers, tex)
+            await client.answer_inline_query(
+                query.id, results=answerss, cache_time=2
+            )
+
+        elif text.split()[0] == "manga":
+            if len(text.split()) < 2:
+                return await client.answer_inline_query(
+                    query.id,
+                    results=answers,
+                    switch_pm_text="Manga Search | manga [QUERY]",
+                    switch_pm_parameter="inline",
+                )
+            tex = text.split(None, 1)[1].strip()
+            answerss = await manga_func(answers, tex)
             await client.answer_inline_query(
                 query.id, results=answerss, cache_time=2
             )

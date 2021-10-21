@@ -57,11 +57,9 @@ today = str(dt()[0])
 tomorrow = str(dt_tom())
 
 
-@app.on_message(filters.command("detect_gay") & ~filters.edited)
+@app.on_message(filters.command(["detect_gay","couple"]) & ~filters.edited & ~filters.private)
 @capture_err
 async def couple(_, message):
-    if message.chat.type == "private":
-        return await message.reply_text("This command only works in groups.")
     try:
         chat_id = message.chat.id
         is_selected = await get_couple(chat_id, today)

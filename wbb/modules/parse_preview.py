@@ -3,12 +3,12 @@ from asyncio import sleep
 from pyrogram import filters
 from pyrogram.types import Message
 
-from wbb import SUDOERS, USERBOT_PREFIX, app2, eor
+from wbb import SUDOERS, app,eor
 from wbb.core.sections import section
 
 
-@app2.on_message(
-    filters.command("parse_preview", prefixes=USERBOT_PREFIX)
+@app.on_message(
+    filters.command("parse_preview")
     & filters.user(SUDOERS),
 )
 async def parse(_, message: Message):

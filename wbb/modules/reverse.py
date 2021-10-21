@@ -33,7 +33,7 @@ from bs4 import BeautifulSoup
 from pyrogram import filters
 from pyrogram.types import InputMediaPhoto, Message
 
-from wbb import MESSAGE_DUMP_CHAT, SUDOERS, USERBOT_PREFIX, app, app2, eor
+from wbb import MESSAGE_DUMP_CHAT, SUDOERS, app, eor
 from wbb.core.decorators.errors import capture_err
 from wbb.utils.functions import get_file_id_from_message
 from wbb.utils.http import get
@@ -44,9 +44,6 @@ async def get_soup(url: str, headers):
     return BeautifulSoup(html, "html.parser")
 
 
-@app2.on_message(
-    filters.command("reverse", prefixes=USERBOT_PREFIX) & filters.user(SUDOERS)
-)
 @app.on_message(filters.command("reverse"))
 @capture_err
 async def reverse_image_search(client, message: Message):

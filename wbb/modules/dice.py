@@ -1,7 +1,7 @@
 from pyrogram import filters
 from pyrogram.types import Message
 
-from wbb import SUDOERS, USERBOT_PREFIX, app, app2
+from wbb import SUDOERS, app
 
 __MODULE__ = "Dice"
 __HELP__ = """
@@ -10,9 +10,6 @@ __HELP__ = """
 """
 
 
-@app2.on_message(
-    filters.command("dice", prefixes=USERBOT_PREFIX) & filters.user(SUDOERS)
-)
 @app.on_message(filters.command("dice"))
 async def throw_dice(client, message: Message):
     six = (message.from_user.id in SUDOERS) if message.from_user else False

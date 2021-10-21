@@ -26,7 +26,7 @@ import asyncio
 from pyrogram import filters
 from pyrogram.types import Message
 
-from wbb import BOT_ID, SUDOERS, USERBOT_ID, app, app2
+from wbb import BOT_ID, SUDOERS, USERBOT_ID, app
 from wbb.core.decorators.errors import capture_err
 
 __MODULE__ = "Pipes"
@@ -66,33 +66,6 @@ async def pipes_worker_bot(_, message: Message):
     chat_id = message.chat.id
     if chat_id in pipes_list_bot:
         await message.forward(pipes_list_bot[chat_id])
-
-
-@app2.on_message(~filters.me, group=500)
-@capture_err
-async def pipes_worker_userbot(_, message: Message):
-    chat_id = message.chat.id
-
-    if chat_id in pipes_list_bot:
-        caption = f"\n\nForwarded from `{chat_id}`"
-        to_chat_id = pipes_list_bot[chat_id]
-
-        if not message.text:
-            m, temp = await asyncio.gather(
-                app.listen(USERBOT_ID), message.copy(BOT_ID)
-            )
-            caption = f"{temp.caption}{caption}" if temp.caption else caption
-
-            await app.copy_message(
-                to_chat_id,
-                USERBOT_ID,
-                m.message_id,
-                caption=caption,
-            )
-            await asyncio.sleep(2)
-            return await temp.delete()
-
-        await app.send_message(to_chat_id, text=message.text + caption)
 
 
 @app.on_message(filters.command("activate_pipe") & filters.user(SUDOERS))

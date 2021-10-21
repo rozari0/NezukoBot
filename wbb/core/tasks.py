@@ -4,7 +4,7 @@ from time import time
 from pyrogram import filters
 from pyrogram.types import Message
 
-from wbb import BOT_ID, SUDOERS, USERBOT_PREFIX, app2
+from wbb import BOT_ID, SUDOERS
 from wbb.core.sections import bold, section, w
 
 tasks = {}
@@ -80,25 +80,3 @@ async def _get_tasks_text():
             indent=8,
         )
     return text
-
-
-@app2.on_message(
-    filters.user(SUDOERS)
-    & ~filters.forwarded
-    & ~filters.via_bot
-    & filters.command("lsTasks", prefixes=USERBOT_PREFIX)
-)
-async def task_list(_, message: Message):
-    if message.from_user.is_self:
-        await message.delete()
-
-    results = await app2.get_inline_bot_results(
-        BOT_ID,
-        "tasks",
-    )
-    await app2.send_inline_bot_result(
-        message.chat.id,
-        results.query_id,
-        results.results[0].id,
-        hide_via=True,
-    )

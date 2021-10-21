@@ -26,7 +26,7 @@ import asyncio
 from pyrogram import filters
 from pyrogram.errors import FloodWait
 
-from wbb import BOT_ID, BOT_NAME, SUDOERS, USERBOT_NAME, app, app2
+from wbb import BOT_ID, BOT_NAME, SUDOERS, app
 from wbb.core.decorators.errors import capture_err
 from wbb.modules import ALL_MODULES
 from wbb.utils.dbfunctions import (get_blacklist_filters_count,

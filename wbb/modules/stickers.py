@@ -32,7 +32,7 @@ from pyrogram.errors import (PeerIdInvalid, ShortnameOccupyFailed,
                              StickerPngNopng, UserIsBlocked)
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
-from wbb import BOT_USERNAME, SUDOERS, USERBOT_PREFIX, app, app2, eor
+from wbb import BOT_USERNAME, SUDOERS, app, eor
 from wbb.core.decorators.errors import capture_err
 from wbb.utils.files import (get_document_from_file_id,
                              resize_file_to_sticker_size, upload_document)
@@ -91,38 +91,6 @@ async def sticker_image(_, message: Message):
 
     await m.delete()
     os.remove(f)
-
-
-@app2.on_message(
-    filters.command("kang", prefixes=USERBOT_PREFIX) & filters.user(SUDOERS),
-)
-async def userbot_kang(_, message: Message):
-    reply = message.reply_to_message
-
-    if not reply:
-        return await message.reply_text("Reply to a sticker/image to kang it.")
-
-    sticker_m = await reply.forward(BOT_USERNAME)
-
-    # Send /kang message to bot and listen to his reply concurrently
-    bot_reply, kang_m_bot = await gather(
-        app2.listen(BOT_USERNAME, filters=~filters.me),
-        sticker_m.reply(message.text.replace(USERBOT_PREFIX, "/")),
-    )
-
-    # Edit init message of ubot with the reply of
-    # bot we got in the previous block
-    bot_reply, ub_m = await gather(
-        app2.listen(BOT_USERNAME, filters=~filters.me),
-        eor(message, text=bot_reply.text.markdown),
-    )
-
-    # Edit the main userbot message with bot's final edit
-    await ub_m.edit(bot_reply.text.markdown)
-
-    # Delete all extra messages.
-    for m in [bot_reply, kang_m_bot, sticker_m]:
-        await m.delete()
 
 
 @app.on_message(filters.command("kang") & ~filters.edited)

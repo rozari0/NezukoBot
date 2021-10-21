@@ -1,7 +1,7 @@
 {
-    "name": "WilliamButcherBot",
+    "name": "Nezuko",
     "description": "Telegram Group Management Bot Written In Python Using Pyrogram.",
-    "repository": "https://github.com/TheHamkerCat/WilliamButcherBot",
+    "repository": "https://github.com/rozari0/NezukoBot",
     "logo": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg",
     "keywords": [
     "python3",
@@ -11,7 +11,7 @@
     "telegram-bot",
     "pyrogram"
     ],
-    "repository": "https://github.com/TheHamkerCat/WilliamButcherBot",
+    "repository": "https://github.com/rozari0/NezukoBot",
     "stack": "container",
     "env": {
         "BOT_TOKEN": {
@@ -25,10 +25,6 @@
         "API_HASH": {
             "description": "API_HASH of your Telegram Account my.telegram.org/apps",
             "required": true
-        },
-        "SESSION_STRING": {
-            "description": "Need for Userbot Module So u can execute .sh & .l cmd",
-            "required": false
         },
         "SUDO_USERS_ID": {
             "description": "Sudo users have full access to everythin, don't trust anyone... ex:- 123456 654311 123456",
@@ -63,22 +59,9 @@
             "description": "Get this from @ARQRobot.",
             "required": true
         },
-        "LOG_MENTIONS": {
-            "description": "Fill 1 to turn this on, or 0 to turn it off.",
-            "required": true
-        },
-        "USERBOT_PREFIX": {
-            "description": "Userbot command prefix, Leave it empty if you don't know what that is.",
-            "required": false
-        },
         "RSS_DELAY": {
             "description": "Delay in which RSS will send updates in chat",
             "value": "300",
-            "required": true
-        },
-        "PM_PERMIT":{
-            "description": "Pm permit, fill 1 to enable or 0 to disable it.",
-            "value": "1",
             "required": true
         }
     }

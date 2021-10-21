@@ -42,12 +42,12 @@ if is_config:
 else:
     from sample_config import *
 
-USERBOT_PREFIX = USERBOT_PREFIX
 GBAN_LOG_GROUP_ID = GBAN_LOG_GROUP_ID
 SUDOERS = SUDO_USERS_ID
 WELCOME_DELAY_KICK_SEC = WELCOME_DELAY_KICK_SEC
 LOG_GROUP_ID = LOG_GROUP_ID
 MESSAGE_DUMP_CHAT = MESSAGE_DUMP_CHAT
+USERBOT_ID = OWNER_ID
 MOD_LOAD = []
 MOD_NOLOAD = []
 bot_start_time = time.time()
@@ -79,16 +79,6 @@ async def load_sudoers():
 loop = asyncio.get_event_loop()
 loop.run_until_complete(load_sudoers())
 
-if not HEROKU:
-    app2 = Client(
-        "userbot",
-        phone_number=PHONE_NUMBER,
-        api_id=API_ID,
-        api_hash=API_HASH,
-    )
-else:
-    app2 = Client(SESSION_STRING, api_id=API_ID, api_hash=API_HASH)
-
 aiohttpsession = ClientSession()
 
 arq = ARQ(ARQ_API_URL, ARQ_API_KEY, aiohttpsession)
@@ -98,26 +88,18 @@ app = Client("wbb", bot_token=BOT_TOKEN, api_id=API_ID, api_hash=API_HASH)
 print("[INFO]: STARTING BOT CLIENT")
 app.start()
 print("[INFO]: STARTING USERBOT CLIENT")
-app2.start()
+#app2.start()
 
 print("[INFO]: GATHERING PROFILE INFO")
 x = app.get_me()
-y = app2.get_me()
+
+#y = app2.get_me()
 
 BOT_ID = x.id
 BOT_NAME = x.first_name + (x.last_name or "")
 BOT_USERNAME = x.username
 BOT_MENTION = x.mention
 BOT_DC_ID = x.dc_id
-
-USERBOT_ID = y.id
-USERBOT_NAME = y.first_name + (y.last_name or "")
-USERBOT_USERNAME = y.username
-USERBOT_MENTION = y.mention
-USERBOT_DC_ID = y.dc_id
-
-if USERBOT_ID not in SUDOERS:
-    SUDOERS.append(USERBOT_ID)
 
 telegraph = Telegraph()
 telegraph.create_account(short_name=BOT_USERNAME)

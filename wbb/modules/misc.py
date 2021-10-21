@@ -27,7 +27,7 @@ from asyncio import Lock
 
 from pyrogram import filters
 
-from wbb import SUDOERS, USERBOT_PREFIX, app, app2, arq, eor
+from wbb import SUDOERS, app, arq, eor
 from wbb.core.decorators.errors import capture_err
 from wbb.utils import random_line
 from wbb.utils.http import get
@@ -128,9 +128,6 @@ async def runs(_, message):
     await message.reply_text((await random_line("wbb/utils/runs.txt")))
 
 
-@app2.on_message(
-    filters.command("id", prefixes=USERBOT_PREFIX) & filters.user(SUDOERS)
-)
 @app.on_message(filters.command("id"))
 async def getid(client, message):
     chat = message.chat
