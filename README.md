@@ -85,8 +85,8 @@ python3 -m wbb
 </h1>
 
 ```console
-git clone https://github.com/rozari0/WilliamButcherBot
-cd WilliamButcherBot
+git clone https://github.com/rozari0/NezukoBot
+cd NezukoBot
 cp sample_config.env config.env
 ```
 
