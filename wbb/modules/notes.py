@@ -45,6 +45,8 @@ __HELP__ = """/notes To Get All The Notes In The Chat.
 Checkout /markdownhelp to know more about formattings and other syntax.
 """
 
+USERBOT_PREFIX = "."
+
 
 @app.on_message(filters.command("save") & ~filters.edited & ~filters.private)
 @adminsOnly("can_change_info")
