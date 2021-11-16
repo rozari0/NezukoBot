@@ -134,7 +134,7 @@ async def wish(client, message: Message):
         return await message.reply_text(f"Your Wish **{message.reply_to_message.text}** Has {random.randint(1,99)}% Succession Rate!")
     else:
         if len(message.command)<2:
-            return await message.reply_text("reply **/wish** To a message for weebify or use **/wish Your Wish**")
+            return await message.reply_text("reply **/wish** To a message for wish or use **/wish Your Wish**")
         else:
             message.command.pop(0)
             return await message.reply_text(f"Your Wish **{' '.join(message.command)}** Has {random.randint(1,99)}% Succession Rate!")

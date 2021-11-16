@@ -36,6 +36,7 @@ from wbb import BOT_USERNAME, SUDOERS, app, eor
 from wbb.core.decorators.errors import capture_err
 from wbb.utils.files import (get_document_from_file_id,
                              resize_file_to_sticker_size, upload_document)
+from wbb.utils.dbfunctions import (get_packname , set_packname, del_packname)
 from wbb.utils.stickerset import (add_sticker_to_set, create_sticker,
                                   create_sticker_set, get_sticker_set_by_name)
 
@@ -45,6 +46,12 @@ __HELP__ = """
     To get FileID of a Sticker.
 /get_sticker
     To get sticker as a photo and document.
+/set_packname
+    To set coustom packname for your stickers.
+/get_packname
+    To get packname of your stickers.
+/del_packname
+    To delete packname of your stickers.
 /kang
     To kang a Sticker or an Image."""
 
@@ -169,6 +176,12 @@ async def kang(client, message: Message):
     limit = 0
     try:
         while True:
+            try:
+                packrealname = await get_packname(message.from_user.id)
+                if len(packrealname) <= 0:
+                    packrealname = f"{message.from_user.first_name[:32]}'s kang pack"
+            except:
+                packrealname = f"{message.from_user.first_name[:32]}'s kang pack"
             # Prevent infinite rules
             if limit >= 50:
                 return await msg.delete()
@@ -178,7 +191,7 @@ async def kang(client, message: Message):
                 stickerset = await create_sticker_set(
                     client,
                     message.from_user.id,
-                    f"{message.from_user.first_name[:32]}'s kang pack",
+                    packrealname,
                     packname,
                     [sticker],
                 )
@@ -221,3 +234,31 @@ async def kang(client, message: Message):
         )
     except StickerPngDimensions:
         await message.reply_text("The sticker png dimensions are invalid.")
+
+@app.on_message(filters.command("set_packname") & ~filters.edited)
+@capture_err
+async def sticker_id(_, message: Message):
+    if len(message.command)<2:
+            return await message.reply_text("**Use `/set_packname PackName`**")
+    else:
+        message.command.pop(0)
+        user_id = message.from_user.id
+        await set_packname(user_id,' '.join(message.command))
+        return await message.reply_text(f"Packname Set to **{' '.join(message.command)}**")
+
+@app.on_message(filters.command("get_packname") & ~filters.edited)
+@capture_err
+async def sticker_id(_, message: Message):
+    try:
+        return await message.reply_text(f"Your Current Packname is **{await get_packname(message.from_user.id)}**")
+    except:
+        return await message.reply_text("You have not set a packname yet.")
+
+@app.on_message(filters.command("del_packname") & ~filters.edited)
+@capture_err
+async def sticker_id(_, message: Message):
+    try:
+        await del_packname(message.from_user.id)
+        return await message.reply_text("Your Packname has been deleted.")
+    except:
+        return await message.reply_text("You have not set a packname yet.")

@@ -54,6 +54,7 @@ blacklist_chatdb = db.blacklistChat
 restart_stagedb = db.restart_stage
 flood_toggle_db = db.flood_toggle
 rssdb = db.rss
+stickerpackname = db.packname
 
 
 def obj_to_str(obj):
@@ -777,3 +778,16 @@ async def get_rss_feeds_count() -> int:
     feeds = rssdb.find({"chat_id": {"$exists": 1}})
     feeds = await feeds.to_list(length=10000000)
     return len(feeds)
+
+async def get_packname(chat_id: int) -> str:
+    text = await stickerpackname.find_one({"chat_id": chat_id})
+    if not text:
+        return ""
+    return text["text"]
+
+async def set_packname(chat_id: int, text: str):
+    return await stickerpackname.update_one(
+        {"chat_id": chat_id}, {"$set": {"text": text}}, upsert=True
+    )
+async def del_packname(chat_id: int):
+    return await stickerpackname.delete_one({"chat_id": chat_id})
