@@ -63,6 +63,10 @@
             "description": "Delay in which RSS will send updates in chat",
             "value": "300",
             "required": true
-        }
+        },
+	"OWNER_ID":{
+		"description": "Owner id of bot",
+		"required":true
+	}
     }
 }

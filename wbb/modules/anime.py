@@ -1,4 +1,5 @@
 import requests
+from random import choice,randint
 from pyrogram import filters
 from pyrogram.types import Message
 from wbb import SUDOERS, app,BOT_USERNAME
@@ -9,8 +10,13 @@ from jikanpy import Jikan
 __MODULE__ = "Fun"
 __HELP__ = """
 /anime - Get Anime Info.
+/manga - Get Manga Info.
+/aquote - Get Random Anime Quote.
+/aquote anime- Get Anime Quote From An Anime.
+/cquote character - Get Quote From A Character.
 """
-
+from fake_useragent import UserAgent
+ua = UserAgent()
 
 @app.on_message(filters.command(["anime",f"anime@{BOT_USERNAME}"]))
 @capture_err
@@ -82,3 +88,35 @@ async def manga(client, message: Message):
                         ]
                     ]
                 ),reply_to_message_id=replyto.message_id)
+
+@app.on_message(filters.command(["aquote",f"aquote@{BOT_USERNAME}"]))
+@capture_err
+async def manga(client, message: Message):
+    if len(message.command)<2:
+        query = requests.get('https://animechan.vercel.app/api/random', headers={'User-Agent': ua.random}).json()
+        return await message.reply_text(f"`{query['quote']}`\n\n**{query['character']} ({query['anime']})**")
+    else:
+        message.command.pop(0)
+        try:
+            query = requests.get(f'https://animechan.vercel.app/api/quotes/anime?title={" ".join(message.command)}&page={randint(0,5)}', headers={'User-Agent': ua.random}).json()
+            query = choice(query)
+            return await message.reply_text(f"`{query['quote']}`\n\n**{query['character']} ({query['anime']})**")
+        except:
+            return await message.reply_text("No quotes found.")
+
+
+@app.on_message(filters.command(["cquote",f"cquote@{BOT_USERNAME}"]))
+@capture_err
+async def manga(client, message: Message):
+    if len(message.command)<2:
+        query = requests.get('https://animechan.vercel.app/api/random', headers={'User-Agent': ua.random}).json()
+        return await message.reply_text(f"`{query['quote']}`\n\n**~{query['character']} ({query['anime']})**")
+    else:
+        message.command.pop(0)
+        try:
+            query = requests.get(f'https://animechan.vercel.app/api/quotes/character?name={" ".join(message.command)}&page={randint(0,5)}', headers={'User-Agent': ua.random}).json()
+            query = choice(query)
+            return await message.reply_text(f"`{query['quote']}`\n\n**{query['character']} ({query['anime']})**")
+        except:
+            return await message.reply_text("No quotes found.")
+

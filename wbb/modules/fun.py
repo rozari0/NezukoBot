@@ -97,8 +97,11 @@ async def weebify(client, message: Message):
 @capture_err
 async def slap(client, message: Message):
     if message.reply_to_message:
-        if message.reply_to_message.from_user.id == BOT_ID:
-            return await message.reply_text("Stop slapping me. REEEEEEEEEEEEEE.")
+        try:
+            if message.reply_to_message.from_user.id == BOT_ID:
+                return await message.reply_text("Stop slapping me. REEEEEEEEEEEEEE.")
+        except:
+            return await message.reply_text("You Cann't Slap an Anon Admin. :p")
         else:
             try:
                 user1 = message.from_user.first_name

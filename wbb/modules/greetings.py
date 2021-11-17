@@ -90,6 +90,30 @@ async def get_initial_captcha_cache():
 
 loop.create_task(get_initial_captcha_cache())
 
+@app.on_message(filters.new_chat_members, group=welcome_captcha_group)
+@capture_err
+async def send_welcome_message(client, message: Message):
+    raw_text = await get_welcome(message.chat.id)
+
+    if not raw_text:
+        return
+
+    text, keyb = extract_text_and_keyb(ikb, raw_text)
+
+    if "{chat}" in text:
+        text = text.replace("{chat}", message.chat.title)
+    if "{name}" in text:
+        text = text.replace("{name}", (await app.get_users(message.from_user.id)).mention)
+
+    await app.send_message(
+        message.chat.id,
+        text=text,
+        reply_markup=keyb,
+        disable_web_page_preview=True,
+    )
+
+
+
 
 @app.on_message(filters.new_chat_members, group=welcome_captcha_group)
 @capture_err
@@ -201,26 +225,6 @@ async def welcome(_, message: Message):
         await asyncio.sleep(0.5)
 
 
-async def send_welcome_message(chat: Chat, user_id: int):
-    raw_text = await get_welcome(chat.id)
-
-    if not raw_text:
-        return
-
-    text, keyb = extract_text_and_keyb(ikb, raw_text)
-
-    if "{chat}" in text:
-        text = text.replace("{chat}", chat.title)
-    if "{name}" in text:
-        text = text.replace("{name}", (await app.get_users(user_id)).mention)
-
-    await app.send_message(
-        chat.id,
-        text=text,
-        reply_markup=keyb,
-        disable_web_page_preview=True,
-    )
-
 
 @app.on_callback_query(filters.regex("pressed_button"))
 async def callback_query_welcome_button(_, callback_query):
@@ -309,7 +313,7 @@ async def kick_restricted_after_delay(
     join_message = button_message.reply_to_message
     group_chat = button_message.chat
     user_id = user.id
-    await join_message.delete()
+    #await join_message.delete()
     await button_message.delete()
     if len(answers_dicc) != 0:
         for i in answers_dicc:
