@@ -26,9 +26,10 @@ from pyrogram.types import Message
 
 from wbb import app
 from wbb.core.decorators.errors import capture_err
+from wbb.utils.http import get
 
 __MODULE__ = "WebSS"
-__HELP__ = "/webss | .webss [URL] - Take A Screenshot Of A Webpage"
+__HELP__ = "/webss [URL] - Take A Screenshot Of A Webpage"
 
 
 @app.on_message(filters.command("webss"))
@@ -40,9 +41,10 @@ async def take_ss(_, message: Message):
         url = message.text.split(None, 1)[1]
         m = await message.reply_text("**Taking Screenshot**")
         await m.edit("**Uploading**")
+        ss = await get(f"https://screenshotapi1.herokuapp.com/?print={url}")['url']
         try:
             await message.reply_photo(
-                photo=f"https://webshot.amanoteam.com/print?q={url}",
+                photo=ss,
                 quote=False,
             )
         except TypeError:
