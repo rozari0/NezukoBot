@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2021 TheHamkerCat & rozari0
+Copyright (c) 2021 rozari0
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,34 +21,36 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from pyrogram import filters
-from pyrogram.types import Message
 
 from wbb import app
+from pyrogram import filters
 from wbb.core.decorators.errors import capture_err
-from wbb.utils.http import get
+from wbb.utils.http import get,resp_get
 
-__MODULE__ = "WebSS"
-__HELP__ = "/webss [URL] - Take A Screenshot Of A Webpage"
+__MODULE__ = "Animals"
+__HELP__ = """/catfacts - To Get Facts About Cat.
+/dogfacts - To Get Facts About Dog.
+/animalfacts - To Get Facts About Animal.
+"""
 
-
-@app.on_message(filters.command("webss"))
+@app.on_message(filters.command("catfacts"))
 @capture_err
-async def take_ss(_, message: Message):
-    try:
-        if len(message.command) != 2:
-            return await message.reply_text("Give A Url To Fetch Screenshot.")
-        url = message.text.split(None, 1)[1]
-        m = await message.reply_text("**Taking Screenshot**")
-        await m.edit("**Uploading**")
-        ss = await get(f"https://screenshotapi1.herokuapp.com/?print={url}")['url']
-        try:
-            await message.reply_photo(
-                photo=ss,
-                quote=False,
-            )
-        except TypeError:
-            return await m.edit("No Such Website.")
-        await m.delete()
-    except Exception as e:
-        await message.reply_text(str(e))
+async def catfacts(client, message):
+    """
+    Get cat facts
+    """
+    message = await message.reply_text("`Getting cat facts...`")
+    resp = await get("https://cat-fact.herokuapp.com/facts/random")
+    return await message.edit(resp["text"])
+
+@app.on_message(filters.command("animalfacts"))
+@capture_err
+async def animalfacts(client, message):
+    somerandomvariable = await get("https://axoltlapi.herokuapp.com/")
+    return await message.reply_photo(somerandomvariable["url"],caption=somerandomvariable["facts"])
+
+@app.on_message(filters.command("dogfacts"))
+@capture_err
+async def dogfacts(client, message):
+    somerandomvariable = await get("https://dog-facts-api.herokuapp.com/api/v1/resources/dogs?number=1")
+    return await message.reply_text(somerandomvariable[0]["fact"])

@@ -13,7 +13,7 @@
     <a href="https://GitHub.com/rozari0">
         <img src="http://ForTheBadge.com/images/badges/built-with-love.svg" alt="built-with-love">
     </a> <br>
-    <img src="https://img.shields.io/github/license/rozari0/WilliamButcherBot?style=for-the-badge&logo=appveyor" alt="LICENSE">
+    <img src="https://img.shields.io/github/license/rozari0/NezukoBot?style=for-the-badge&logo=appveyor" alt="LICENSE">
     <img src="https://img.shields.io/github/contributors/rozari0/NezukoBot?style=for-the-badge&logo=appveyor" alt="Contributors">
     <img src="https://img.shields.io/github/repo-size/rozari0/NezukoBot?style=for-the-badge&logo=appveyor" alt="Repository Size"> <br>
     <img src="https://img.shields.io/badge/python-3.9-green?style=for-the-badge&logo=appveyor" alt="Python Version">

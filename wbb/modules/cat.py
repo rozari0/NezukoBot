@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2021 TheHamkerCat & rozari0
+Copyright (c) 2021 rozari0
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -21,34 +21,30 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from pyrogram import filters
-from pyrogram.types import Message
 
 from wbb import app
+from pyrogram import filters
 from wbb.core.decorators.errors import capture_err
-from wbb.utils.http import get
+from wbb.utils.http import get,resp_get
 
-__MODULE__ = "WebSS"
-__HELP__ = "/webss [URL] - Take A Screenshot Of A Webpage"
+__MODULE__ = "Cats"
+__HELP__ = """/randomcat - To Get Random Photo of Cat.
+/cats - To Get Photo of Cat. Use **/cats -s** to get photo as sticker.
+/catfacts - To Get Facts About Cat.
+"""
 
-
-@app.on_message(filters.command("webss"))
+@app.on_message(filters.command("randomcat"))
 @capture_err
-async def take_ss(_, message: Message):
-    try:
-        if len(message.command) != 2:
-            return await message.reply_text("Give A Url To Fetch Screenshot.")
-        url = message.text.split(None, 1)[1]
-        m = await message.reply_text("**Taking Screenshot**")
-        await m.edit("**Uploading**")
-        ss = await get(f"https://screenshotapi1.herokuapp.com/?print={url}")['url']
-        try:
-            await message.reply_photo(
-                photo=ss,
-                quote=False,
-            )
-        except TypeError:
-            return await m.edit("No Such Website.")
-        await m.delete()
-    except Exception as e:
-        await message.reply_text(str(e))
+async def randomcat(_, message):
+    cat = await get("https://aws.random.cat/meow")
+    await message.reply_photo(cat["file"])
+
+@app.on_message(filters.command("cats"))
+@capture_err
+async def cats(_, message):
+    cat = await get("https://thatcopy.pw/catapi/rest/")
+    if len(message.command)<2:
+        return await message.reply_photo(cat["url"])
+    else:
+        return await message.reply_sticker(cat["webpurl"])
+
