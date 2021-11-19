@@ -102,8 +102,8 @@ async def global_stats(_, message):
     karmas_chats_count = _karmas["chats_count"]
 
     # Contributors/Developers count and commits on github
-    url = "https://api.github.com/repos/thehamkercat/williambutcherbot/contributors"
-    rurl = "https://github.com/thehamkercat/williambutcherbot"
+    url = "https://api.github.com/repos/rozari0/nezukobot/contributors"
+    rurl = "https://github.com/rozari0/nezukobot"
     developers = await get(url)
     commits = 0
     for developer in developers:
@@ -117,18 +117,6 @@ async def global_stats(_, message):
 
     # Userbot info
     groups_ub = channels_ub = bots_ub = privates_ub = total_ub = 0
-    async for i in app2.iter_dialogs():
-        t = i.chat.type
-        total_ub += 1
-
-        if t in ["supergroup", "group"]:
-            groups_ub += 1
-        elif t == "channel":
-            channels_ub += 1
-        elif t == "bot":
-            bots_ub += 1
-        elif t == "private":
-            privates_ub += 1
 
     msg = f"""
 **Global Stats of {BOT_NAME}**:
@@ -144,11 +132,5 @@ async def global_stats(_, message):
     **{served_users}** Users, Across **{served_chats}** chats.
     **{developers}** Developers And **{commits}** Commits On **[Github]({rurl})**.
 
-**Global Stats of {USERBOT_NAME}**:
-    **{total_ub} Dialogs.**
-    **{groups_ub} Groups Joined.**
-    **{channels_ub} Channels Joined.**
-    **{bots_ub} Bots.**
-    **{privates_ub} Users.**
 """
     await m.edit(msg, disable_web_page_preview=True)

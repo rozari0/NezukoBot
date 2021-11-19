@@ -52,9 +52,6 @@ __HELP__ = """
 
 /update - To Update And Restart The Bot
 
-/eval - Execute Python Code
-
-/sh - Execute Shell Code
 """
 
 # Stats Module
