@@ -25,7 +25,8 @@ from re import findall
 
 from pyrogram import filters
 
-from wbb import SUDOERS, USERBOT_ID, app, eor
+from wbb import SUDOERS, app, eor
+from wbb import LOG_GROUP_ID as USERBOT_ID
 from wbb.core.decorators.errors import capture_err
 from wbb.core.decorators.permissions import adminsOnly
 from wbb.core.keyboard import ikb

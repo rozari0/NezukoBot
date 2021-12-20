@@ -32,6 +32,19 @@ from pyrogram.errors import MediaCaptionTooLong
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton,InlineQuery, InlineQueryResultArticle,InputTextMessageContent
 from jikanpy import Jikan
 
+#temporary solution; will fork fakeuseragent to make it more stable
+class ua():
+    def random():
+        user_agent_list = [
+            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
+            "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
+            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6",
+            "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6",
+            "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/",
+            "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:77.0) Gecko/20190101 Firefox/77.0"
+        ]
+        return choice(user_agent_list)
+
 __MODULE__ = "Anime"
 __HELP__ = """
 /anime - Get Anime Info.
@@ -40,8 +53,6 @@ __HELP__ = """
 /aquote anime- Get Anime Quote From An Anime.
 /cquote character - Get Quote From A Character.
 """
-from fake_useragent import UserAgent
-ua = UserAgent()
 
 @app.on_message(filters.command(["anime",f"anime@{BOT_USERNAME}"]))
 @capture_err
@@ -116,12 +127,12 @@ async def manga(client, message: Message):
 @capture_err
 async def manga(client, message: Message):
     if len(message.command)<2:
-        query = requests.get('https://animechan.vercel.app/api/random', headers={'User-Agent': ua.random}).json()
+        query = requests.get('https://animechan.vercel.app/api/random', headers={'User-Agent': ua.random()}).json()
         return await message.reply_text(f"`{query['quote']}`\n\n**{query['character']} ({query['anime']})**")
     else:
         message.command.pop(0)
         try:
-            query = requests.get(f'https://animechan.vercel.app/api/quotes/anime?title={" ".join(message.command)}&page={randint(0,5)}', headers={'User-Agent': ua.random}).json()
+            query = requests.get(f'https://animechan.vercel.app/api/quotes/anime?title={" ".join(message.command)}&page={randint(0,5)}', headers={'User-Agent': ua.random()}).json()
             query = choice(query)
             return await message.reply_text(f"`{query['quote']}`\n\n**{query['character']} ({query['anime']})**")
         except:
@@ -132,12 +143,12 @@ async def manga(client, message: Message):
 @capture_err
 async def manga(client, message: Message):
     if len(message.command)<2:
-        query = requests.get('https://animechan.vercel.app/api/random', headers={'User-Agent': ua.random}).json()
+        query = requests.get('https://animechan.vercel.app/api/random', headers={'User-Agent': ua.random()}).json()
         return await message.reply_text(f"`{query['quote']}`\n\n**~{query['character']} ({query['anime']})**")
     else:
         message.command.pop(0)
         try:
-            query = requests.get(f'https://animechan.vercel.app/api/quotes/character?name={" ".join(message.command)}&page={randint(0,5)}', headers={'User-Agent': ua.random}).json()
+            query = requests.get(f'https://animechan.vercel.app/api/quotes/character?name={" ".join(message.command)}&page={randint(0,5)}', headers={'User-Agent': ua.random()}).json()
             query = choice(query)
             return await message.reply_text(f"`{query['quote']}`\n\n**{query['character']} ({query['anime']})**")
         except:

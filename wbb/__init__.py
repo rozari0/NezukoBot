@@ -35,19 +35,14 @@ from pyromod import listen
 from Python_ARQ import ARQ
 from telegraph import Telegraph
 
-is_config = path.exists("config.py")
 
-if is_config:
-    from config import *
-else:
-    from sample_config import *
+from sample_config import *
 
 GBAN_LOG_GROUP_ID = GBAN_LOG_GROUP_ID
 SUDOERS = SUDO_USERS_ID
 WELCOME_DELAY_KICK_SEC = WELCOME_DELAY_KICK_SEC
 LOG_GROUP_ID = LOG_GROUP_ID
 MESSAGE_DUMP_CHAT = MESSAGE_DUMP_CHAT
-USERBOT_ID = OWNER_ID
 MOD_LOAD = []
 MOD_NOLOAD = []
 bot_start_time = time.time()

@@ -41,7 +41,7 @@ from pyrogram.types import (CallbackQuery, InlineKeyboardButton,
                             InputTextMessageContent,InlineKeyboardMarkup)
 from search_engine_parser import GoogleSearch
 
-from wbb import (BOT_USERNAME,BOT_NAME, MESSAGE_DUMP_CHAT, SUDOERS, USERBOT_ID,
+from wbb import (BOT_USERNAME,BOT_NAME, MESSAGE_DUMP_CHAT, SUDOERS,
                  app, arq)
 from wbb.core.keyboard import ikb
 from wbb.core.tasks import _get_tasks_text, all_tasks, rm_task

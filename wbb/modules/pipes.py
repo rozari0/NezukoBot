@@ -26,7 +26,7 @@ import asyncio
 from pyrogram import filters
 from pyrogram.types import Message
 
-from wbb import BOT_ID, SUDOERS, USERBOT_ID, app
+from wbb import BOT_ID, SUDOERS, app
 from wbb.core.decorators.errors import capture_err
 
 __MODULE__ = "Pipes"
