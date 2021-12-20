@@ -75,12 +75,10 @@ async def upvote(_, message):
     if current_karma:
         current_karma = current_karma["karma"]
         karma = current_karma + 1
-        new_karma = {"karma": karma}
-        await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
     else:
         karma = 1
-        new_karma = {"karma": karma}
-        await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
+    new_karma = {"karma": karma}
+    await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
     await message.reply_text(
         f"Incremented Karma of {user_mention} By 1 \nTotal Points: {karma}"
     )
@@ -115,12 +113,10 @@ async def downvote(_, message):
     if current_karma:
         current_karma = current_karma["karma"]
         karma = current_karma - 1
-        new_karma = {"karma": karma}
-        await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
     else:
         karma = 1
-        new_karma = {"karma": karma}
-        await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
+    new_karma = {"karma": karma}
+    await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
     await message.reply_text(
         f"Decremented Karma Of {user_mention} By 1 \nTotal Points: {karma}"
     )
@@ -168,12 +164,8 @@ async def command_karma(_, message):
 
         user_id = message.reply_to_message.from_user.id
         karma = await get_karma(chat_id, await int_to_alpha(user_id))
-        if karma:
-            karma = karma["karma"]
-            await message.reply_text(f"**Total Points**: __{karma}__")
-        else:
-            karma = 0
-            await message.reply_text(f"**Total Points**: __{karma}__")
+        karma = karma["karma"] if karma else 0
+        await message.reply_text(f"**Total Points**: __{karma}__")
 
 
 @app.on_message(filters.command("karma_toggle") & ~filters.private)

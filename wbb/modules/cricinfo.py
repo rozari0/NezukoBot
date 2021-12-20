@@ -40,7 +40,5 @@ async def catfacts(client, message):
     page = await get(score_page)
     soup = BeautifulSoup(page, "html.parser")
     result = soup.find_all("description")
-    Sed = ""
-    for match in result:
-        Sed += "<code>" + match.get_text() + "</code>\n\n"
+    Sed = "".join("<code>" + match.get_text() + "</code>\n\n" for match in result)
     return await message.reply(Sed,parse_mode="html")

@@ -127,10 +127,8 @@ async def show_pipes_func(_, message: Message):
     if not pipes_list_bot:
         return await message.reply_text("No pipe is active.")
 
-    text = ""
-    for count, pipe in enumerate(pipes_list_bot.items(), 1):
-        text += (
+    text = "".join((
             f"**Pipe:** `{count}`\n**From:** `{pipe[0]}`\n"
             + f"**To:** `{pipe[1]}`\n\n"
-        )
+        ) for count, pipe in enumerate(pipes_list_bot.items(), 1))
     await message.reply_text(text)
