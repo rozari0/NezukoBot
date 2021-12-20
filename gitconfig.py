@@ -1,9 +1,6 @@
 import os
 import subprocess
 
-from os import path
-from sample_config import *
-
 UPSTREAM_REPO = os.environ.get('UPSTREAM_REPO', "https://github.com/rozari0/NezukoBot.git")
 try:
     if len(UPSTREAM_REPO) == 0:
