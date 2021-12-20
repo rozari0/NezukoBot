@@ -3,6 +3,7 @@ config.env
 *.apk
 spam_mod.py
 *.c
+dump
 exec
 *.out
 __pycache__

@@ -165,7 +165,7 @@ async def purgeFunc(_, message: Message):
             message_ids = []
 
     # Delete if any messages left
-    if message_ids:
+    if len(message_ids) > 0:
         await app.delete_messages(
             chat_id=chat_id,
             message_ids=message_ids,
@@ -202,10 +202,7 @@ async def kickFunc(_, message: Message):
     if message.command[0][0] == "d":
         await message.reply_to_message.delete()
     await message.chat.kick_member(user_id)
-    if msg == "The method requires chat admin privileges":
-        await message.reply_text("I'll kick you when I became human again. -.-")
-    else:
-        await message.reply_text(msg)
+    await message.reply_text(msg)
     await asyncio.sleep(1)
     await message.chat.unban_member(user_id)
 
@@ -220,7 +217,8 @@ async def kickFunc(_, message: Message):
 )
 @adminsOnly("can_restrict_members")
 async def banFunc(_, message: Message):
-    user_id, reason = await extract_user_and_reason(message)
+    user_id, reason = await extract_user_and_reason(message, sender_chat=True)
+
     if not user_id:
         return await message.reply_text("I can't find that user.")
     if user_id == BOT_ID:
@@ -235,7 +233,16 @@ async def banFunc(_, message: Message):
         return await message.reply_text(
             "I can't ban an admin, You know the rules, so do i."
         )
-    mention = (await app.get_users(user_id)).mention
+
+    try:
+        mention = (await app.get_users(user_id)).mention
+    except IndexError:
+        mention = (
+            message.reply_to_message.sender_chat.title
+            if message.reply_to_message
+            else "Anon"
+        )
+
     msg = (
         f"**Banned User:** {mention}\n"
         f"**Banned By:** {message.from_user.mention if message.from_user else 'Anon'}\n"
@@ -335,12 +342,12 @@ async def promoteFunc(_, message: Message):
 
     await message.chat.promote_member(
         user_id=user_id,
-        can_change_info=bot.can_change_info,
+        can_change_info=False,
         can_invite_users=bot.can_invite_users,
         can_delete_messages=bot.can_delete_messages,
         can_restrict_members=False,
-        can_pin_messages=bot.can_pin_messages,
-        can_promote_members=bot.can_promote_members,
+        can_pin_messages=False,
+        can_promote_members=False,
         can_manage_chat=bot.can_manage_chat,
         can_manage_voice_chats=bot.can_manage_voice_chats,
     )
@@ -472,11 +479,11 @@ async def unmute(_, message: Message):
 async def ban_deleted_accounts(_, message: Message):
     chat_id = message.chat.id
     deleted_users = []
+    banned_users = 0
     async for i in app.iter_chat_members(chat_id):
         if i.user.is_deleted:
             deleted_users.append(i.user.id)
-    if deleted_users:
-        banned_users = 0
+    if len(deleted_users) > 0:
         for deleted_user in deleted_users:
             try:
                 await message.chat.kick_member(deleted_user)
@@ -517,7 +524,10 @@ async def warn_user(_, message: Message):
     )
     mention = user.mention
     keyboard = ikb({"🚨  Remove Warn  🚨": f"unwarn_{user_id}"})
-    warns = warns["warns"] if warns else 0
+    if warns:
+        warns = warns["warns"]
+    else:
+        warns = 0
     if message.command[0][0] == "d":
         await message.reply_to_message.delete()
     if warns >= 2:
@@ -610,7 +620,10 @@ async def check_warns(_, message: Message):
 
 
 @app.on_message(
-    filters.command(["admins", "admin", "report"], prefixes="@")
+    (
+        filters.command("report")
+        | filters.command(["admins", "admin"], prefixes="@")
+    )
     & ~filters.edited
     & ~filters.private
 )
@@ -618,7 +631,7 @@ async def check_warns(_, message: Message):
 async def report_user(_, message):
     if not message.reply_to_message:
         return await message.reply_text(
-          "Reply to a message to report that user."
+            "Reply to a message to report that user."
         )
 
     if message.reply_to_message.from_user.id == message.from_user.id:
@@ -627,11 +640,18 @@ async def report_user(_, message):
     list_of_admins = await list_admins(message.chat.id)
     if message.reply_to_message.from_user.id in list_of_admins:
         return await message.reply_text(
-          "Do you know that the user you are replying is an admin ?"
+            "Do you know that the user you are replying is an admin ?"
         )
 
     user_mention = message.reply_to_message.from_user.mention
     text = f"Reported {user_mention} to admins!"
-    for admin in list_of_admins:
-        text += f"[\u2063](tg://user?id={admin})"
+    admin_data = await app.get_chat_members(
+        chat_id=message.chat.id, filter="administrators"
+    )  # will it giv floods ?
+    for admin in admin_data:
+        if admin.user.is_bot or admin.user.is_deleted:
+            # return bots or deleted admins
+            continue
+        text += f"[\u2063](tg://user?id={admin.user.id})"
+
     await message.reply_to_message.reply_text(text)
