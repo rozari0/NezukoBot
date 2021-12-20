@@ -98,9 +98,9 @@ async def asq(_, message):
         if not message.reply_to_message.text:
             return await message.reply(err)
         question = message.reply_to_message.text
+    elif len(message.command) < 2:
+        return await message.reply(err)
     else:
-        if len(message.command) < 2:
-            return await message.reply(err)
         question = message.text.split(None, 1)[1]
     m = await message.reply("Thinking...")
     async with ASQ_LOCK:

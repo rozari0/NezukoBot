@@ -185,7 +185,7 @@ async def urban_func(answers, text):
             )
         )
         return answers
-    results = results.result[0:48]
+    results = results.result[:48]
     for i in results:
         clean = lambda x: re_sub(r"[\[\]]", "", x)
         msg = f"""
@@ -243,7 +243,7 @@ async def wall_func(answers, text):
             )
         )
         return answers
-    results = results.result[0:48]
+    results = results.result[:48]
     for i in results:
         answers.append(
             InlineQueryResultPhoto(
@@ -313,7 +313,7 @@ async def torrent_func(answers, text):
             )
         )
         return answers
-    results = results.result[0:48]
+    results = results.result[:48]
     for i in results:
         title = i.name
         size = i.size
@@ -339,7 +339,6 @@ async def torrent_func(answers, text):
                 ),
             )
         )
-        pass
     return answers
 
 
@@ -354,7 +353,7 @@ async def youtube_func(answers, text):
             )
         )
         return answers
-    results = results.result[0:48]
+    results = results.result[:48]
     for i in results:
         buttons = InlineKeyboard(row_width=1)
         video_url = f"https://youtube.com{i.url_suffix}"
@@ -436,41 +435,31 @@ async def tg_search_func(answers, text, user_id):
         )
 
         return answers
-    text = text[0:-1]
+    text = text[:-1]
     async for message in app2.search_global(text, limit=49):
         buttons = InlineKeyboard(row_width=2)
         buttons.add(
             InlineKeyboardButton(
-                text="Origin",
-                url=message.link if message.link else "https://t.me/telegram",
+                text="Origin", url=message.link or "https://t.me/telegram"
             ),
             InlineKeyboardButton(
                 text="Search again",
                 switch_inline_query_current_chat="search",
             ),
         )
-        name = (
-            message.from_user.first_name
-            if message.from_user.first_name
-            else "NO NAME"
-        )
-        caption = f"""
-**Query:** {text}
-**Name:** {str(name)} [`{message.from_user.id}`]
-**Chat:** {str(message.chat.title)} [`{message.chat.id}`]
-**Date:** {ctime(message.date)}
-**Text:** >>
 
-{message.text.markdown if message.text else message.caption if message.caption else '[NO_TEXT]'}
-"""
+        name = message.from_user.first_name or "NO NAME"
+        caption = f'\x1f**Query:** {text}\x1f**Name:** {name} [`{message.from_user.id}`]\x1f**Chat:** {message.chat.title} [`{message.chat.id}`]\x1f**Date:** {ctime(message.date)}\x1f**Text:** >>\x1f\x1f{message.text.markdown if message.text else message.caption or "[NO_TEXT]"}\x1f'
+
         result = InlineQueryResultArticle(
             title=name,
-            description=message.text if message.text else "[NO_TEXT]",
+            description=message.text or "[NO_TEXT]",
             reply_markup=buttons,
             input_message_content=InputTextMessageContent(
                 caption, disable_web_page_preview=True
             ),
         )
+
         answers.append(result)
     return answers
 
@@ -652,11 +641,8 @@ async def tmdb_func(answers, query):
     for result in results:
         if not result.poster and not result.backdrop:
             continue
-        if not result.genre:
-            genre = None
-        else:
-            genre = " | ".join(result.genre)
-        description = result.overview[0:900] if result.overview else "None"
+        genre = None if not result.genre else " | ".join(result.genre)
+        description = result.overview[:900] if result.overview else "None"
         caption = f"""
 **{result.title}**
 **Type:** {result.type}
@@ -674,15 +660,14 @@ async def tmdb_func(answers, query):
         )
         answers.append(
             InlineQueryResultPhoto(
-                photo_url=result.backdrop
-                if result.backdrop
-                else result.poster,
+                photo_url=result.backdrop or result.poster,
                 caption=caption,
                 title=result.title,
                 description=f"{genre} • {result.releaseDate} • {result.rating} • {description}",
                 reply_markup=buttons,
             )
         )
+
     return answers
 
 
