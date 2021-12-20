@@ -70,9 +70,9 @@ async def tg_lock(message, permissions: list, perm: str, lock: bool):
         if perm not in permissions:
             return await message.reply_text("Already locked.")
         permissions.remove(perm)
+    elif perm in permissions:
+        return await message.reply_text("Already Unlocked.")
     else:
-        if perm in permissions:
-            return await message.reply_text("Already Unlocked.")
         permissions.append(perm)
 
     permissions = {perm: True for perm in list(set(permissions))}
@@ -140,10 +140,7 @@ async def locktypes(_, message):
     if not permissions:
         return await message.reply_text("No Permissions.")
 
-    perms = ""
-    for i in permissions:
-        perms += f"__**{i}**__\n"
-
+    perms = "".join(f"__**{i}**__\n" for i in permissions)
     await message.reply_text(perms)
 
 

@@ -60,10 +60,7 @@ def generate_captcha():
 
     # Generate a 4 letter word
     def gen_wrong_answer():
-        word = ""
-        for _ in range(4):
-            word += gen_letter()
-        return word
+        return "".join(gen_letter() for _ in range(4))
 
     # Generate 8 wrong captcha answers
     wrong_answers = []
@@ -147,8 +144,7 @@ async def calc_distance_from_ip(ip1: str, ip2: str) -> float:
     dlat = lat2 - lat1
     a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
-    distance = Radius_Earth * c
-    return distance
+    return Radius_Earth * c
 
 
 def get_urls_from_text(text: str) -> bool:
@@ -216,10 +212,7 @@ async def extract_user_and_reason(message):
         # if reply to a message and no reason is given
         if not reply.from_user:
             return None, None
-        if len(args) < 2:
-            reason = None
-        else:
-            reason = text.split(None, 1)[1]
+        reason = None if len(args) < 2 else text.split(None, 1)[1]
         return reply.from_user.id, reason
 
     # if not reply to a message and no reason is given
@@ -309,7 +302,4 @@ async def get_user_id_and_usernames(client) -> dict:
         users = client.storage.conn.execute(
             'SELECT * FROM peers WHERE type in ("user", "bot") AND username NOT null'
         ).fetchall()
-    users_ = {}
-    for user in users:
-        users_[user[0]] = user[3]
-    return users_
+    return {user[0]: user[3] for user in users}

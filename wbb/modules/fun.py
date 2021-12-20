@@ -86,12 +86,10 @@ def weebifytext(text):
 async def weebify(client, message: Message):
     if message.reply_to_message:
         return await message.reply_text(weebifytext(message.reply_to_message.text))
-    else:
-        if len(message.command)<2:
-            return await message.reply_text("reply **/weebify** To a message for weebify or use **/weebify Your Text**")
-        else:
-            message.command.pop(0)
-            return await message.reply_text(weebifytext(' '.join(message.command)))
+    if len(message.command)<2:
+        return await message.reply_text("reply **/weebify** To a message for weebify or use **/weebify Your Text**")
+    message.command.pop(0)
+    return await message.reply_text(weebifytext(' '.join(message.command)))
 
 @app.on_message(filters.command(["slap",f"slap@{BOT_USERNAME}"]) & ~filters.private)
 @capture_err
@@ -135,9 +133,7 @@ async def slap(client, message: Message):
 async def wish(client, message: Message):
     if message.reply_to_message:
         return await message.reply_text(f"Your Wish **{message.reply_to_message.text}** Has {random.randint(1,99)}% Succession Rate!")
-    else:
-        if len(message.command)<2:
-            return await message.reply_text("reply **/wish** To a message for wish or use **/wish Your Wish**")
-        else:
-            message.command.pop(0)
-            return await message.reply_text(f"Your Wish **{' '.join(message.command)}** Has {random.randint(1,99)}% Succession Rate!")
+    if len(message.command)<2:
+        return await message.reply_text("reply **/wish** To a message for wish or use **/wish Your Wish**")
+    message.command.pop(0)
+    return await message.reply_text(f"Your Wish **{' '.join(message.command)}** Has {random.randint(1,99)}% Succession Rate!")

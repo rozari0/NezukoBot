@@ -239,12 +239,11 @@ async def kang(client, message: Message):
 @capture_err
 async def sticker_id(_, message: Message):
     if len(message.command)<2:
-            return await message.reply_text("**Use `/set_packname PackName`**")
-    else:
-        message.command.pop(0)
-        user_id = message.from_user.id
-        await set_packname(user_id,' '.join(message.command))
-        return await message.reply_text(f"Packname Set to **{' '.join(message.command)}**")
+        return await message.reply_text("**Use `/set_packname PackName`**")
+    message.command.pop(0)
+    user_id = message.from_user.id
+    await set_packname(user_id,' '.join(message.command))
+    return await message.reply_text(f"Packname Set to **{' '.join(message.command)}**")
 
 @app.on_message(filters.command("get_packname") & ~filters.edited)
 @capture_err

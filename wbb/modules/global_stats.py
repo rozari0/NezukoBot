@@ -57,7 +57,6 @@ async def clean_db(_, message):
         except Exception:
             await remove_served_chat(served_chat)
             served_chats.remove(served_chat)
-            pass
     await m.edit("**Database Cleaned.**")
 
 
@@ -105,9 +104,7 @@ async def global_stats(_, message):
     url = "https://api.github.com/repos/rozari0/nezukobot/contributors"
     rurl = "https://github.com/rozari0/nezukobot"
     developers = await get(url)
-    commits = 0
-    for developer in developers:
-        commits += developer["contributions"]
+    commits = sum(developer["contributions"] for developer in developers)
     developers = len(developers)
 
     # Rss feeds
