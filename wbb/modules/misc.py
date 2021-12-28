@@ -61,9 +61,6 @@ __HELP__ = """
 /json [URL]
     Get parsed JSON response from a rest API.
 
-/arq
-    Statistics Of ARQ API.
-
 /webss [URL]
     Take A Screenshot Of A Webpage
 
@@ -118,7 +115,10 @@ async def commit(_, message):
 
 @app.on_message(filters.command("RTFM", "#"))
 async def rtfm(_, message):
-    await message.delete()
+    try:
+        await message.delete()
+    except Exception:
+        pass
     if not message.reply_to_message:
         return await message.reply_text("Reply To A Message lol")
     await message.reply_to_message.reply_text(

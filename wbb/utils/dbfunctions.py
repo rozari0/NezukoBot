@@ -55,6 +55,7 @@ restart_stagedb = db.restart_stage
 flood_toggle_db = db.flood_toggle
 rssdb = db.rss
 stickerpackname = db.packname
+nsfw_filtersdb = db.nsfw_allowed
 
 
 def obj_to_str(obj):
@@ -765,3 +766,13 @@ async def set_packname(chat_id: int, text: str):
     )
 async def del_packname(chat_id: int):
     return await stickerpackname.delete_one({"chat_id": chat_id})
+
+async def set_nsfw_status(chat_id: int, allowed: bool):
+    return await nsfw_filtersdb.update_one(
+        {"chat_id": chat_id}, {"$set": {"allowed": allowed}}, upsert=True
+    )
+async def get_nsfw_status(chat_id: int) -> bool:
+    text = await nsfw_filtersdb.find_one({"chat_id": chat_id})
+    if not text:
+        return False
+    return text["allowed"]
