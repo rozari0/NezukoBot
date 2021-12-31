@@ -43,7 +43,7 @@ async def authorised(func, subFunc2, client, message, *args, **kwargs):
         except AttributeError:
             await message.reply_text(str(e))
         e = err()
-        print(str(e))
+        print(e)
     return subFunc2
 
 

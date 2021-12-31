@@ -402,12 +402,11 @@ async def happy(client,message):
 @adminsOnly("can_change_info")
 async def nsfw(client,message):
     if len(message.command)>=2 and message.command[1].lower() == "on":
-        if await get_nsfw_status(message.chat.id) == False:
-            await set_nsfw_status(message.chat.id,True)
-            return await message.reply_text("NSFW mode enabled")
-        else:
+        if await get_nsfw_status(message.chat.id) != False:
             return await message.reply_text("NSFW mode already enabled")
-    
+
+        await set_nsfw_status(message.chat.id,True)
+        return await message.reply_text("NSFW mode enabled")
     elif len(message.command)>=2 and message.command[1].lower() == "off":
         if await get_nsfw_status(message.chat.id):
             await message.reply_text("Turning NSFW off...")
@@ -421,12 +420,11 @@ async def nsfw(client,message):
 @app.on_message(filters.command("nsfw") & filters.private)
 async def nsfw(client,message):
     if len(message.command)>=2 and message.command[1].lower() == "on":
-        if await get_nsfw_status(message.chat.id) == False:
-            await set_nsfw_status(message.chat.id,True)
-            return await message.reply_text("NSFW mode enabled")
-        else:
+        if await get_nsfw_status(message.chat.id) != False:
             return await message.reply_text("NSFW mode already enabled")
-    
+
+        await set_nsfw_status(message.chat.id,True)
+        return await message.reply_text("NSFW mode enabled")
     elif len(message.command)>=2 and message.command[1].lower() == "off":
         if await get_nsfw_status(message.chat.id):
             m = await message.reply_text("Turning NSFW off...")
