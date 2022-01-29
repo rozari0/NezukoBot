@@ -5,6 +5,9 @@
 <h3 align="center">
     Telegram Group Manager Bot Written In Python Using Pyrogram.
 </h3>
+<h4 align="center">
+    :exclamation: Please star this project before using it.
+</h4>
 
 <p align="center">
     <a href="https://python.org">
@@ -132,5 +135,6 @@ async def some_function(_, message):
 Thanks to:
 - [`TheHamkerCat`](https://github.com/TheHamkerCat) for build up of this bot from scratch and ARQ api. :3
 - [`delivrance`](https://github.com/delivrance) for pyrogram.
+- [`rozari0`](https://github.com/rozari0) for some extra features & fixes.
 
 And many more people who aren't mentioned here, but can be found in [Contributors](https://github.com/rozario/NezukoBot/graphs/contributors).

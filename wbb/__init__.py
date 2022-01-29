@@ -82,13 +82,10 @@ app = Client("wbb", bot_token=BOT_TOKEN, api_id=API_ID, api_hash=API_HASH)
 
 print("[INFO]: STARTING BOT CLIENT")
 app.start()
-print("[INFO]: STARTING USERBOT CLIENT")
-#app2.start()
 
 print("[INFO]: GATHERING PROFILE INFO")
 x = app.get_me()
 
-#y = app2.get_me()
 
 BOT_ID = x.id
 BOT_NAME = x.first_name + (x.last_name or "")

@@ -103,7 +103,7 @@ async def send_welcome_message(client, message: Message):
     if "{chat}" in text:
         text = text.replace("{chat}", message.chat.title)
     if "{name}" in text:
-        text = text.replace("{name}", (await app.get_users(message.from_user.id)).mention)
+        text = text.replace("{name}", (await app.get_users(message.new_chat_members[0].id)).mention)
 
     await app.send_message(
         message.chat.id,
@@ -387,6 +387,24 @@ async def get_welcome_func(_, message):
             "You're anon, can't send welcome message."
         )
 
-    await send_welcome_message(chat, message.from_user.id)
+    raw_text = await get_welcome(message.chat.id)
+
+    if not raw_text:
+        return
+
+    text, keyb = extract_text_and_keyb(ikb, raw_text)
+
+    if "{chat}" in text:
+        text = text.replace("{chat}", message.chat.title)
+    if "{name}" in text:
+        text = text.replace("{name}", (await app.get_users(message.from_user.id)).mention)
+
+    await app.send_message(
+        message.chat.id,
+        text=text,
+        reply_markup=keyb,
+        disable_web_page_preview=True,
+    )
+
 
     await message.reply_text(f'`{welcome.replace("`", "")}`')
