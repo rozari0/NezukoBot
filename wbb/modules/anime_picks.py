@@ -47,6 +47,7 @@ nsfw_commands = ['trap','blowjob','nsfwwaifu','nwaifu','nsfwneko']
 for _i in nsfw_commands:
     __HELP__ += f"\n/{_i}"
 
+__HELP__ += "\n\n** Turn on/off NSFW by /nsfw on/off **"
 
 @app.on_message(filters.command("waifu"))
 @capture_err
@@ -409,8 +410,9 @@ async def nsfw(client,message):
         return await message.reply_text("NSFW mode enabled")
     elif len(message.command)>=2 and message.command[1].lower() == "off":
         if await get_nsfw_status(message.chat.id):
-            await message.reply_text("Turning NSFW off...")
-            return await set_nsfw_status(message.chat.id,False)
+            m = await message.reply_text("Turning NSFW off...")
+            await set_nsfw_status(message.chat.id,False)
+            return await m.edit("NSFW mode disabled")
         else:
             await message.reply_text("NSFW is already off!")
             return
