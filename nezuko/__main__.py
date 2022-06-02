@@ -25,8 +25,8 @@ import asyncio
 import importlib
 import re
 
-import uvloop
-from pyrogram import filters, idle
+from uvloop import install
+from pyrogram import filters, idle, enums
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from nezuko import BOT_NAME, BOT_USERNAME, LOG_GROUP_ID, aiohttpsession, app
@@ -35,6 +35,7 @@ from nezuko.modules.sudoers import bot_sys_stats
 from nezuko.utils import paginate_modules
 from nezuko.utils.constants import MARKDOWN
 from nezuko.utils.dbfunctions import clean_restart_stage
+from contextlib import closing, suppress
 
 loop = asyncio.get_event_loop()
 
@@ -148,7 +149,7 @@ keyboard = InlineKeyboardMarkup(
 
 @app.on_message(filters.command("start"))
 async def start(_, message):
-    if message.chat.type != "private":
+    if message.chat.type != enums.ChatType.PRIVATE:
         return await message.reply_photo(
             photo="https://cdn.awwni.me/2gj9h.jpg",
             caption="Pm Me For More Details.",
@@ -184,7 +185,7 @@ async def start(_, message):
 
 @app.on_message(filters.command("help"))
 async def help_command(_, message):
-    if message.chat.type != "private":
+    if message.chat.type != enums.ChatType.PRIVATE:
         if len(message.command) >= 2:
             name = (message.text.split(None, 1)[1]).lower()
             if str(name) in HELPABLE:
@@ -341,12 +342,8 @@ General command are:
 
 
 if __name__ == "__main__":
-    uvloop.install()
-    try:
-        try:
+    install()
+    with closing(loop):
+        with suppress(asyncio.exceptions.CancelledError):
             loop.run_until_complete(start_bot())
-        except asyncio.exceptions.CancelledError:
-            pass
         loop.run_until_complete(asyncio.sleep(3.0))  # task cancel wait
-    finally:
-        loop.close()

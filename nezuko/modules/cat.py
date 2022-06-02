@@ -30,7 +30,6 @@ from nezuko.utils.http import get, resp_get
 
 __MODULE__ = "Cats"
 __HELP__ = """/randomcat - To Get Random Photo of Cat.
-/cat - To Get Photo of Cat. Use **/cat -s** to get photo as sticker.
 /catfacts - To Get Facts About Cat.
 """
 
@@ -41,12 +40,3 @@ async def randomcat(_, message):
     cat = await get("https://aws.random.cat/meow")
     await message.reply_photo(cat.get("file"))
 
-
-@app.on_message(filters.command("cat"))
-@capture_err
-async def cats(_, message):
-    cat = await get("https://thatcopy.pw/catapi/rest/")
-    if len(message.command) < 2:
-        return await message.reply_photo(cat.get("url"))
-    else:
-        return await message.reply_sticker(cat.get("webpurl"))
