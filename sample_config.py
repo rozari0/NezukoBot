@@ -1,5 +1,7 @@
+from os import environ, path
+
 from dotenv import load_dotenv
-from os import environ,path
+
 if path.exists("config.env"):
     load_dotenv("config.env")
 

@@ -25,5 +25,4 @@ fuzzysearch
 img2pdf
 telegraph
 jikanpy
-git+https://github.com/hellysmile/fake-useragent/
 cinemagoer

@@ -65,7 +65,7 @@ cp sample_config.env config.env
 </h2>
 
 ```console
-python3 -m wbb
+python3 -m nezuko
 ```
 <h1>
     <p align="center">
@@ -98,8 +98,8 @@ cp sample_config.env config.env
 </h3>
 
 ```console
-sudo docker build . -t wbb
-sudo docker run wbb
+sudo docker build . -t nezuko
+sudo docker run nezuko
 ```
 
 <h2 align="center">
@@ -109,7 +109,7 @@ sudo docker run wbb
 ```py
 # Add license text here, get it from below
 
-from wbb import app # This is bot's client
+from nezuko import app # This is bot's client
 from pyrogram import filters # pyrogram filters
 ...
 
@@ -123,11 +123,11 @@ __HELP__ = "Module help message"
 async def some_function(_, message):
     await message.reply_text("I'm already up!!")
 
-# Many useful functions are in, wbb/utils/, wbb, and wbb/core/
+# Many useful functions are in, nezuko/utils/, nezuko, and nezuko/core/
 ```
 
 <h3 align="center">
-   And put that file in wbb/modules/, restart and test your bot.
+   And put that file in nezuko/modules/, restart and test your bot.
 </h3>
 
 # Credits
@@ -137,4 +137,4 @@ Thanks to:
 - [`delivrance`](https://github.com/delivrance) for pyrogram.
 - [`rozari0`](https://github.com/rozari0) for some extra features & fixes.
 
-And many more people who aren't mentioned here, but can be found in [Contributors](https://github.com/rozario/NezukoBot/graphs/contributors).
+And many more people who aren't mentioned here, but can be found in [Contributors](https://github.com/rozari0/NezukoBot/graphs/contributors).
