@@ -69,7 +69,7 @@ async def start_bot():
 
     restart_data = await clean_restart_stage()
 
-    try:
+    with suppress(Exception):
         print("[INFO]: SENDING ONLINE STATUS")
         if restart_data:
             await app.edit_message_text(
@@ -80,9 +80,6 @@ async def start_bot():
 
         else:
             await app.send_message(LOG_GROUP_ID, "Bot started!")
-    except Exception:
-        pass
-
     await idle()
 
     await aiohttpsession.close()
@@ -283,7 +280,7 @@ General command are:
  - /help: Give this message
  """
     if mod_match:
-        module = mod_match.group(1)
+        module = mod_match[1]
         text = (
             "{} **{}**:\n".format("Here is the help for", HELPABLE[module].__MODULE__)
             + HELPABLE[module].__HELP__
@@ -304,7 +301,7 @@ General command are:
         )
         await query.message.delete()
     elif prev_match:
-        curr_page = int(prev_match.group(1))
+        curr_page = int(prev_match[1])
         await query.message.edit(
             text=top_text,
             reply_markup=InlineKeyboardMarkup(
@@ -314,7 +311,7 @@ General command are:
         )
 
     elif next_match:
-        next_page = int(next_match.group(1))
+        next_page = int(next_match[1])
         await query.message.edit(
             text=top_text,
             reply_markup=InlineKeyboardMarkup(
