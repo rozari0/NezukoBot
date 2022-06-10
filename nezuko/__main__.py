@@ -97,21 +97,21 @@ async def start_bot():
 home_keyboard_pm = InlineKeyboardMarkup(
     [
         [
-            InlineKeyboardButton(text="Commands ❓", callback_data="bot_commands"),
+            InlineKeyboardButton(text="❓ Commands Help", callback_data="bot_commands"),
             InlineKeyboardButton(
-                text="Repo ❤️",
-                url="https://github.com/rozari0/NezukoBot",
+                text="🙋Team",
+                url="https://t.me/TeamOfShadow",
             ),
         ],
         [
             InlineKeyboardButton(
-                text="System Stats 🖥",
-                callback_data="stats_callback",
+                text="🙋‍♀️ Shadow News",
+                url="https://t.me/ShadowBotUpdates",
             ),
         ],
         [
             InlineKeyboardButton(
-                text="Add Me To Your Group⚡",
+                text="➕Add Me To Your Group➕",
                 url=f"http://t.me/{BOT_USERNAME}?startgroup=new",
             )
         ],
@@ -129,17 +129,17 @@ keyboard = InlineKeyboardMarkup(
     [
         [
             InlineKeyboardButton(
-                text="Help ❓",
+                text="❓ Commands Help",
                 url=f"t.me/{BOT_USERNAME}?start=help",
             ),
             InlineKeyboardButton(
-                text="Repo 🛠",
-                url="https://github.com/rozari0/NezukoBot",
+                text="🙋‍♀️ Shadow News",
+                url="https://t.me/ShadowBotUpdates",
             ),
         ],
         [
             InlineKeyboardButton(
-                text="System Stats 💻",
+                text="💬System Stats ",
                 callback_data="stats_callback",
             ),
         ],
