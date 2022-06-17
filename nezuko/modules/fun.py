@@ -122,7 +122,7 @@ async def slap(client, message: Message):
                 user1=user1, user2=user2, item=item, hits=hit, throws=throw
             )
             return await message.reply_text(
-                reply, reply_to_message_id=message.reply_to_message.message_id
+                reply, reply_to_message_id=message.reply_to_message.id
             )
     else:
         user1 = BOT_NAME

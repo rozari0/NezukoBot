@@ -154,8 +154,8 @@ async def purgeFunc(_, message: Message):
     message_ids = []
 
     for message_id in range(
-        message.reply_to_message.message_id,
-        message.message_id,
+        message.reply_to_message.id,
+        message.id,
     ):
         message_ids.append(message_id)
 

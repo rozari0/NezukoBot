@@ -39,4 +39,3 @@ __HELP__ = """/randomcat - To Get Random Photo of Cat.
 async def randomcat(_, message):
     cat = await get("https://aws.random.cat/meow")
     await message.reply_photo(cat.get("file"))
-

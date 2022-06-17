@@ -118,7 +118,7 @@ async def anime(client, message: Message):
                     ],
                 ]
             ),
-            reply_to_message_id=replyto.message_id,
+            reply_to_message_id=replyto.id,
         )
 
 
@@ -175,7 +175,7 @@ async def manga(client, message: Message):
                     ],
                 ]
             ),
-            reply_to_message_id=replyto.message_id,
+            reply_to_message_id=replyto.id,
         )
 
 
