@@ -51,7 +51,7 @@ async def admin(_, __, message: Message) -> bool:
     # doesn't cause floodwait, that's why i'm using it here.
     return message.from_user.id in [
         member.user.id
-        async for member in message._client.iter_chat_members(
+        async for member in message._client.get_chat_members(
             message.chat.id, filter="administrators"
         )
     ]

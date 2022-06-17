@@ -1,4 +1,3 @@
-aiohttp
 aiofiles
 ffmpeg-python
 gTTS
@@ -12,7 +11,7 @@ pykeyboard
 pyrogram
 python-arq
 requests
-search_engine_parser
+git+https://github.com/bisohns/search-engine-parser.git
 speedtest-cli
 TgCrypto
 uvloop
