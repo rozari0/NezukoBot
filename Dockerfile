@@ -1,7 +1,7 @@
-FROM rozari0/python:latest
+FROM archlinux/archlinux:latest
 
 # Install dependencies
-RUN pacman -S --noconfirm git wget libxml2 libxslt zip
+RUN pacman -Syu --noconfirm && pacman -S --noconfirm git wget libxml2 libxslt zip python-pip
 
 # Downloading mongodb tools
 RUN wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.5.2.tgz && tar -xf mongodb*.tgz && \ 
