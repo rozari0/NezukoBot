@@ -57,13 +57,18 @@ async def save_filters(_, message):
         return await message.reply_text(
             "**Usage:**\nReply to a text or sticker with /filter [FILTER_NAME] to save it."
         )
-    if not message.reply_to_message.text and not message.reply_to_message.sticker:
+    if (
+        not message.reply_to_message.text
+        and not message.reply_to_message.sticker
+    ):
         return await message.reply_text(
             "__**You can only save text or stickers in filters.**__"
         )
     name = message.text.split(None, 1)[1].strip()
     if not name:
-        return await message.reply_text("**Usage:**\n__/filter [FILTER_NAME]__")
+        return await message.reply_text(
+            "**Usage:**\n__/filter [FILTER_NAME]__"
+        )
     chat_id = message.chat.id
     _type = "text" if message.reply_to_message.text else "sticker"
     _filter = {

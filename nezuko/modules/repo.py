@@ -34,7 +34,9 @@ __HELP__ = "/repo - To Get My Github Repository Link " "And Support Group Link"
 @app.on_message(filters.command("repo"))
 @capture_err
 async def repo(_, message):
-    users = await get("https://api.github.com/repos/rozari0/NezukoBot/contributors")
+    users = await get(
+        "https://api.github.com/repos/rozari0/NezukoBot/contributors"
+    )
     list_of_users = "".join(
         f"**{count}.** [{user['login']}]({user['html_url']})\n"
         for count, user in enumerate(users, start=1)
@@ -45,4 +47,6 @@ async def repo(_, message):
 | Contributors |
 ----------------```
 {list_of_users}"""
-    await app.send_message(message.chat.id, text=text, disable_web_page_preview=True)
+    await app.send_message(
+        message.chat.id, text=text, disable_web_page_preview=True
+    )

@@ -23,7 +23,7 @@ SOFTWARE.
 """
 from asyncio import gather, sleep
 
-from pyrogram import filters,enums
+from pyrogram import enums, filters
 from pyrogram.types import Message
 
 from nezuko import BOT_ID, SUDOERS, app, arq, eor
@@ -82,7 +82,11 @@ async def type_and_send(message: Message):
 
 
 @app.on_message(
-    filters.text & filters.reply & ~filters.bot & ~filters.via_bot & ~filters.forwarded,
+    filters.text
+    & filters.reply
+    & ~filters.bot
+    & ~filters.via_bot
+    & ~filters.forwarded,
     group=chatbot_group,
 )
 @capture_err

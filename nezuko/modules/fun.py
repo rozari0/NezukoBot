@@ -87,7 +87,9 @@ def weebifytext(text):
 @capture_err
 async def weebify(client, message: Message):
     if message.reply_to_message:
-        return await message.reply_text(weebifytext(message.reply_to_message.text))
+        return await message.reply_text(
+            weebifytext(message.reply_to_message.text)
+        )
     if len(message.command) < 2:
         return await message.reply_text(
             "reply **/weebify** To a message for weebify or use **/weebify Your Text**"
@@ -96,15 +98,21 @@ async def weebify(client, message: Message):
     return await message.reply_text(weebifytext(" ".join(message.command)))
 
 
-@app.on_message(filters.command(["slap", f"slap@{BOT_USERNAME}"]) & ~filters.private)
+@app.on_message(
+    filters.command(["slap", f"slap@{BOT_USERNAME}"]) & ~filters.private
+)
 @capture_err
 async def slap(client, message: Message):
     if message.reply_to_message:
         try:
             if message.reply_to_message.from_user.id == BOT_ID:
-                return await message.reply_text("Stop slapping me. REEEEEEEEEEEEEE.")
+                return await message.reply_text(
+                    "Stop slapping me. REEEEEEEEEEEEEE."
+                )
         except:
-            return await message.reply_text("You Cann't Slap an Anon Admin. :p")
+            return await message.reply_text(
+                "You Cann't Slap an Anon Admin. :p"
+            )
         else:
             try:
                 user1 = message.from_user.first_name
@@ -134,7 +142,9 @@ async def slap(client, message: Message):
         item = random.choice(fun_strings.ITEMS)
         hit = random.choice(fun_strings.HIT)
         throw = random.choice(fun_strings.THROW)
-        reply = temp.format(user1=user1, user2=user2, item=item, hits=hit, throws=throw)
+        reply = temp.format(
+            user1=user1, user2=user2, item=item, hits=hit, throws=throw
+        )
         return await message.reply_text(reply)
 
 

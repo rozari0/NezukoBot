@@ -30,7 +30,12 @@ from nezuko import SUDOERS, app, eor
 from nezuko.core.decorators.errors import capture_err
 from nezuko.core.decorators.permissions import adminsOnly
 from nezuko.core.keyboard import ikb
-from nezuko.utils.dbfunctions import delete_note, get_note, get_note_names, save_note
+from nezuko.utils.dbfunctions import (
+    delete_note,
+    get_note,
+    get_note_names,
+    save_note,
+)
 from nezuko.utils.functions import extract_text_and_keyb
 
 __MODULE__ = "Notes"
@@ -57,7 +62,10 @@ async def save_notee(_, message):
             text="**Usage:**\nReply to a text or sticker with /save [NOTE_NAME] to save it.",
         )
 
-    elif not message.reply_to_message.text and not message.reply_to_message.sticker:
+    elif (
+        not message.reply_to_message.text
+        and not message.reply_to_message.sticker
+    ):
         await eor(
             message,
             text="__**You can only save text or stickers in notes.**__",

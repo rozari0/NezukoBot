@@ -32,7 +32,8 @@ from nezuko.core.keyboard import ikb
 
 __MODULE__ = "Proxy"
 __HELP__ = (
-    "/proxy - Get socks5 proxy which you can" + " use with telegram or other things"
+    "/proxy - Get socks5 proxy which you can"
+    + " use with telegram or other things"
 )
 
 proxies = []
@@ -52,7 +53,8 @@ def url_from_proxy(proxy: str) -> str:
     user, passwd = creds.split(":")
     host, port = proxy.split(":")
     return (
-        f"https://t.me/socks?server={host}&port=" + f"{port}&user={user}&pass={passwd}"
+        f"https://t.me/socks?server={host}&port="
+        + f"{port}&user={user}&pass={passwd}"
     )
 
 

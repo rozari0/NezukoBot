@@ -30,7 +30,9 @@ from pyrogram.types import Message
 from nezuko import MONGO_URL, SUDOERS, app
 
 
-@app.on_message(filters.command("backup") & filters.user(SUDOERS) & filters.private)
+@app.on_message(
+    filters.command("backup") & filters.user(SUDOERS) & filters.private
+)
 async def backup(_, message: Message):
     m = await message.reply("Backing up data...")
 

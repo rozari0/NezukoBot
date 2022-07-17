@@ -17,4 +17,6 @@ MONGO_URL = environ.get("MONGO_URL", None)
 ARQ_API_URL = environ.get("ARQ_API_URL", None)
 ARQ_API_KEY = environ.get("ARQ_API_KEY", None)
 RSS_DELAY = int(environ.get("RSS_DELAY", None))
-UPSTREAM_REPO = environ.get("UPSTREAM_REPO", "https://github.com/rozari0/NezukoBot.git")
+UPSTREAM_REPO = environ.get(
+    "UPSTREAM_REPO", "https://github.com/rozari0/NezukoBot.git"
+)

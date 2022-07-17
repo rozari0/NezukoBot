@@ -157,7 +157,9 @@ class InlineQueryResultAudio(InlineQueryResult):
             thumb=thumb,
             content=audio,
             send_message=(
-                await self.input_message_content.write(client, self.reply_markup)
+                await self.input_message_content.write(
+                    client, self.reply_markup
+                )
                 if self.input_message_content
                 else raw.types.InputBotInlineMessageMediaAuto(
                     reply_markup=await self.reply_markup.write(client)
@@ -256,7 +258,9 @@ class InlineQueryResultCachedDocument(InlineQueryResult):
             description=self.description,
             document=document,
             send_message=(
-                await self.input_message_content.write(client, self.reply_markup)
+                await self.input_message_content.write(
+                    client, self.reply_markup
+                )
                 if self.input_message_content
                 else raw.types.InputBotInlineMessageMediaAuto(
                     reply_markup=await self.reply_markup.write(client)
@@ -288,7 +292,9 @@ def get_input_file_from_file_id(
         )
 
     if file_type in (FileType.THUMBNAIL, FileType.CHAT_PHOTO):
-        raise ValueError(f"This file_id can only be used for download: {file_id}")
+        raise ValueError(
+            f"This file_id can only be used for download: {file_id}"
+        )
 
     if file_type in PHOTO_TYPES:
         return raw.types.InputPhoto(

@@ -78,7 +78,9 @@ def download_youtube_audio(url: str):
             os.remove(audio_file)
             audio_file = audio_file_opus
         thumbnail_url = info_dict["thumbnail"]
-        thumbnail_file = basename + "." + get_file_extension_from_url(thumbnail_url)
+        thumbnail_file = (
+            basename + "." + get_file_extension_from_url(thumbnail_url)
+        )
         title = info_dict["title"]
         try:
             performer = info_dict["artist"]
@@ -100,10 +102,14 @@ async def music(_, message):
             "Another download is in progress, try again after sometime."
         )
     is_downloading = True
-    m = await message.reply_text(f"Downloading {url}", disable_web_page_preview=True)
+    m = await message.reply_text(
+        f"Downloading {url}", disable_web_page_preview=True
+    )
     try:
         loop = get_running_loop()
-        music = await loop.run_in_executor(None, partial(download_youtube_audio, url))
+        music = await loop.run_in_executor(
+            None, partial(download_youtube_audio, url)
+        )
         if not music:
             await m.edit("Too Long, Can't Download.")
         (

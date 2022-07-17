@@ -22,10 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 import asyncio
-
-from pyrogram import filters, enums
-from pyrogram.types import CallbackQuery, ChatPermissions, Message
 from time import time
+
+from pyrogram import enums, filters
+from pyrogram.types import CallbackQuery, ChatPermissions, Message
+
 from nezuko import BOT_ID, SUDOERS, app
 from nezuko.core.decorators.errors import capture_err
 from nezuko.core.keyboard import ikb
@@ -36,7 +37,11 @@ from nezuko.utils.dbfunctions import (
     remove_warns,
     save_filter,
 )
-from nezuko.utils.functions import extract_user, extract_user_and_reason, time_converter
+from nezuko.utils.functions import (
+    extract_user,
+    extract_user_and_reason,
+    time_converter,
+)
 
 __MODULE__ = "Admin"
 __HELP__ = """/ban - Ban A User
@@ -189,7 +194,9 @@ async def kickFunc(_, message: Message):
     if not user_id:
         return await message.reply_text("I can't find that user.")
     if user_id == BOT_ID:
-        return await message.reply_text("I can't kick myself, i can leave if you want.")
+        return await message.reply_text(
+            "I can't kick myself, i can leave if you want."
+        )
     if user_id in SUDOERS:
         return await message.reply_text("You Wanna Kick The Elevated One?")
     if user_id in (await list_admins(message.chat.id)):
@@ -220,9 +227,13 @@ async def banFunc(_, message: Message):
     if not user_id:
         return await message.reply_text("I can't find that user.")
     if user_id == BOT_ID:
-        return await message.reply_text("I can't ban myself, i can leave if you want.")
+        return await message.reply_text(
+            "I can't ban myself, i can leave if you want."
+        )
     if user_id in SUDOERS:
-        return await message.reply_text("You Wanna Ban The Elevated One?, RECONSIDER!")
+        return await message.reply_text(
+            "You Wanna Ban The Elevated One?, RECONSIDER!"
+        )
     if user_id in (await list_admins(message.chat.id)):
         return await message.reply_text(
             "I can't ban an admin, You know the rules, so do i."
@@ -411,7 +422,9 @@ async def mute(_, message: Message):
     if user_id == BOT_ID:
         return await message.reply_text("I can't mute myself.")
     if user_id in SUDOERS:
-        return await message.reply_text("You wanna mute the elevated one?, RECONSIDER!")
+        return await message.reply_text(
+            "You wanna mute the elevated one?, RECONSIDER!"
+        )
     if user_id in (await list_admins(message.chat.id)):
         return await message.reply_text(
             "I can't mute an admin, You know the rules, so do i."
@@ -495,9 +508,13 @@ async def warn_user(_, message: Message):
     if not user_id:
         return await message.reply_text("I can't find that user.")
     if user_id == BOT_ID:
-        return await message.reply_text("I can't warn myself, i can leave if you want.")
+        return await message.reply_text(
+            "I can't warn myself, i can leave if you want."
+        )
     if user_id in SUDOERS:
-        return await message.reply_text("You Wanna Warn The Elevated One?, RECONSIDER!")
+        return await message.reply_text(
+            "You Wanna Warn The Elevated One?, RECONSIDER!"
+        )
     if user_id in (await list_admins(chat_id)):
         return await message.reply_text(
             "I can't warn an admin, You know the rules, so do i."
@@ -515,7 +532,9 @@ async def warn_user(_, message: Message):
         await message.reply_to_message.delete()
     if warns >= 2:
         await message.chat.ban_member(user_id)
-        await message.reply_text(f"Number of warns of {mention} exceeded, BANNED!")
+        await message.reply_text(
+            f"Number of warns of {mention} exceeded, BANNED!"
+        )
         await remove_warns(chat_id, await int_to_alpha(user_id))
     else:
         warn = {"warns": warns + 1}
@@ -599,13 +618,18 @@ async def check_warns(_, message: Message):
 
 
 @app.on_message(
-    (filters.command("report") | filters.command(["admins", "admin"], prefixes="@"))
+    (
+        filters.command("report")
+        | filters.command(["admins", "admin"], prefixes="@")
+    )
     & ~filters.private
 )
 @capture_err
 async def report_user(_, message):
     if not message.reply_to_message:
-        return await message.reply_text("Reply to a message to report that user.")
+        return await message.reply_text(
+            "Reply to a message to report that user."
+        )
 
     if message.reply_to_message.from_user.id == message.from_user.id:
         return await message.reply_text("Why are you reporting yourself ?")

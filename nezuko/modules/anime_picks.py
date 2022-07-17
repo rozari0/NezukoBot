@@ -71,7 +71,9 @@ commands = [
 for _i in commands:
     __HELP__ += f"\n/{_i}"
 
-__HELP__ += "\n\n**Get NSFW (Not Safe for work) Anime Pics. Try This Commands:**"
+__HELP__ += (
+    "\n\n**Get NSFW (Not Safe for work) Anime Pics. Try This Commands:**"
+)
 nsfw_commands = ["trap", "blowjob", "nsfwwaifu", "nwaifu", "nsfwneko"]
 for _i in nsfw_commands:
     __HELP__ += f"\n/{_i}"

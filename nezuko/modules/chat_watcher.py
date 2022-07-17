@@ -22,7 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 from nezuko import app
-from nezuko.utils.dbfunctions import add_served_chat, add_served_user, blacklisted_chats
+from nezuko.utils.dbfunctions import (
+    add_served_chat,
+    add_served_user,
+    blacklisted_chats,
+)
 from nezuko.utils.filter_groups import chat_watcher_group
 
 

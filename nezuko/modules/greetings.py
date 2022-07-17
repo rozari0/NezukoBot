@@ -233,7 +233,9 @@ async def welcome(_, message: Message):
         await update_captcha_cache(answers_dicc)
 
         asyncio.create_task(
-            kick_restricted_after_delay(WELCOME_DELAY_KICK_SEC, button_message, member)
+            kick_restricted_after_delay(
+                WELCOME_DELAY_KICK_SEC, button_message, member
+            )
         )
         await asyncio.sleep(0.5)
 
@@ -314,7 +316,9 @@ async def callback_query_welcome_button(_, callback_query):
     return await send_welcome_message(chat, pending_user_id)
 
 
-async def kick_restricted_after_delay(delay, button_message: Message, user: User):
+async def kick_restricted_after_delay(
+    delay, button_message: Message, user: User
+):
     """If the new member is still restricted after the delay, delete
     button message and join message and then kick him
     """
@@ -333,7 +337,9 @@ async def kick_restricted_after_delay(delay, button_message: Message, user: User
     await _ban_restricted_user_until_date(group_chat, user_id, duration=delay)
 
 
-async def _ban_restricted_user_until_date(group_chat, user_id: int, duration: int):
+async def _ban_restricted_user_until_date(
+    group_chat, user_id: int, duration: int
+):
     try:
         member = await group_chat.get_member(user_id)
         if member.status == "restricted":
@@ -400,7 +406,9 @@ async def get_welcome_func(_, message):
     if not welcome:
         return await message.reply_text("No welcome message set.")
     if not message.from_user:
-        return await message.reply_text("You're anon, can't send welcome message.")
+        return await message.reply_text(
+            "You're anon, can't send welcome message."
+        )
 
     raw_text = await get_welcome(message.chat.id)
 

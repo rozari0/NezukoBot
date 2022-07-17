@@ -39,7 +39,10 @@ from nezuko.utils.dbfunctions import (
     karma_on,
     update_karma,
 )
-from nezuko.utils.filter_groups import karma_negative_group, karma_positive_group
+from nezuko.utils.filter_groups import (
+    karma_negative_group,
+    karma_positive_group,
+)
 from nezuko.utils.functions import get_user_id_and_usernames
 
 __MODULE__ = "Karma"
@@ -50,9 +53,7 @@ Reply to a message with /karma to check a user's karma
 Send /karma without replying to any message to check karma list of top 10 users"""
 
 
-regex_upvote = (
-    r"^(\+|\+\+|\+1|thx|tnx|ty|thank you|thanx|thanks|pro|cool|good|👍|\+\+ .+)$"
-)
+regex_upvote = r"^(\+|\+\+|\+1|thx|tnx|ty|thank you|thanx|thanks|pro|cool|good|👍|\+\+ .+)$"
 regex_downvote = r"^(-|--|-1|👎|-- .+)$"
 
 

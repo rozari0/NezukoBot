@@ -34,8 +34,8 @@ from sys import executable
 import aiofiles
 import speedtest
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
-from pyrogram.types import Message
 from pyrogram import enums
+from pyrogram.types import Message
 
 from nezuko import aiohttpsession as aiosession
 from nezuko.utils.dbfunctions import start_restart_stage

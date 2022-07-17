@@ -113,7 +113,9 @@ async def alive_function(answers):
     bot_state = "Dead" if not await app.get_me() else "Alive"
     buttons.add(
         InlineKeyboardButton("Stats", callback_data="stats_callback"),
-        InlineKeyboardButton("Go Inline!", switch_inline_query_current_chat=""),
+        InlineKeyboardButton(
+            "Go Inline!", switch_inline_query_current_chat=""
+        ),
     )
 
     msg = f"""
@@ -167,7 +169,9 @@ __**Translated from {result.src} to {result.dest}**__
             ),
             InlineQueryResultArticle(
                 title=result.translatedText,
-                input_message_content=InputTextMessageContent(result.translatedText),
+                input_message_content=InputTextMessageContent(
+                    result.translatedText
+                ),
             ),
         ]
     )
@@ -370,7 +374,9 @@ async def youtube_func(answers, text):
 **Duration:** {i.duration}
 **Uploaded:** {i.publish_time}
 **Description:** {i.long_desc}"""
-        description = f"{i.views} | {i.channel} | {i.duration} | {i.publish_time}"
+        description = (
+            f"{i.views} | {i.channel} | {i.duration} | {i.publish_time}"
+        )
         answers.append(
             InlineQueryResultArticle(
                 title=i.title,
@@ -510,7 +516,9 @@ async def speedtest_init(query):
         return answers
     msg = "**Click The Button Below To Perform A Speedtest**"
     button = InlineKeyboard(row_width=1)
-    button.add(InlineKeyboardButton(text="Test", callback_data="test_speedtest"))
+    button.add(
+        InlineKeyboardButton(text="Test", callback_data="test_speedtest")
+    )
     answers.append(
         InlineQueryResultArticle(
             title="Click Here",
@@ -546,7 +554,7 @@ async def test_speedtest_cq(_, cq):
 async def ping_func(answers):
     ping = Ping(ping_id=app.rnd_id())
     t1 = time()
-    await app.send(ping)
+    await app.invoke(ping)
     t2 = time()
     ping = f"{str(round((t2 - t1) * 1000, 2))} ms"
     answers.append(
@@ -744,7 +752,9 @@ async def execute_code(query):
             answers.append(
                 InlineQueryResultArticle(
                     title="Error",
-                    input_message_content=InputTextMessageContent(response.result),
+                    input_message_content=InputTextMessageContent(
+                        response.result
+                    ),
                 )
             )
         else:

@@ -30,7 +30,14 @@ import psutil
 from pyrogram import filters
 from pyrogram.errors import FloodWait
 
-from nezuko import BOT_ID, BOT_NAME, GBAN_LOG_GROUP_ID, SUDOERS, app, bot_start_time
+from nezuko import (
+    BOT_ID,
+    BOT_NAME,
+    GBAN_LOG_GROUP_ID,
+    SUDOERS,
+    app,
+    bot_start_time,
+)
 from nezuko.core.decorators.errors import capture_err
 from nezuko.utils import formatter
 from nezuko.utils.dbfunctions import (
@@ -39,7 +46,11 @@ from nezuko.utils.dbfunctions import (
     is_gbanned_user,
     remove_gban_user,
 )
-from nezuko.utils.functions import extract_user, extract_user_and_reason, restart
+from nezuko.utils.functions import (
+    extract_user,
+    extract_user_and_reason,
+    restart,
+)
 
 __MODULE__ = "Sudoers"
 __HELP__ = """
@@ -203,5 +214,7 @@ async def update_restart(_, message):
         await message.reply_text(f"```{out}```")
     except Exception as e:
         return await message.reply_text(str(e))
-    m = await message.reply_text("**Updated with default branch, restarting now.**")
+    m = await message.reply_text(
+        "**Updated with default branch, restarting now.**"
+    )
     await restart(m)

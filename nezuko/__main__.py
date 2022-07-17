@@ -24,10 +24,11 @@ SOFTWARE.
 import asyncio
 import importlib
 import re
+from contextlib import closing, suppress
 
-from uvloop import install
-from pyrogram import filters, idle, enums
+from pyrogram import enums, filters, idle
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from uvloop import install
 
 from nezuko import BOT_NAME, BOT_USERNAME, LOG_GROUP_ID, aiohttpsession, app
 from nezuko.modules import ALL_MODULES
@@ -35,7 +36,6 @@ from nezuko.modules.sudoers import bot_sys_stats
 from nezuko.utils import paginate_modules
 from nezuko.utils.constants import MARKDOWN
 from nezuko.utils.dbfunctions import clean_restart_stage
-from contextlib import closing, suppress
 
 loop = asyncio.get_event_loop()
 
@@ -47,9 +47,15 @@ async def start_bot():
 
     for module in ALL_MODULES:
         imported_module = importlib.import_module(f"nezuko.modules.{module}")
-        if hasattr(imported_module, "__MODULE__") and imported_module.__MODULE__:
+        if (
+            hasattr(imported_module, "__MODULE__")
+            and imported_module.__MODULE__
+        ):
             imported_module.__MODULE__ = imported_module.__MODULE__
-            if hasattr(imported_module, "__HELP__") and imported_module.__HELP__:
+            if (
+                hasattr(imported_module, "__HELP__")
+                and imported_module.__HELP__
+            ):
                 HELPABLE[imported_module.__MODULE__.lower()] = imported_module
     bot_modules = ""
     j = 1
@@ -97,7 +103,9 @@ async def start_bot():
 home_keyboard_pm = InlineKeyboardMarkup(
     [
         [
-            InlineKeyboardButton(text="Commands ❓", callback_data="bot_commands"),
+            InlineKeyboardButton(
+                text="Commands ❓", callback_data="bot_commands"
+            ),
             InlineKeyboardButton(
                 text="Repo ❤️",
                 url="https://github.com/rozari0/NezukoBot",
@@ -204,9 +212,13 @@ async def help_command(_, message):
                     reply_markup=key,
                 )
             else:
-                await message.reply("PM Me For More Details.", reply_markup=keyboard)
+                await message.reply(
+                    "PM Me For More Details.", reply_markup=keyboard
+                )
         else:
-            await message.reply("Pm Me For More Details.", reply_markup=keyboard)
+            await message.reply(
+                "Pm Me For More Details.", reply_markup=keyboard
+            )
     elif len(message.command) >= 2:
         name = (message.text.split(None, 1)[1]).lower()
         if str(name) in HELPABLE:
@@ -216,7 +228,9 @@ async def help_command(_, message):
             )
             await message.reply(text, disable_web_page_preview=True)
         else:
-            text, help_keyboard = await help_parser(message.from_user.first_name)
+            text, help_keyboard = await help_parser(
+                message.from_user.first_name
+            )
             await message.reply(
                 text,
                 reply_markup=help_keyboard,
@@ -285,7 +299,9 @@ General command are:
     if mod_match:
         module = mod_match.group(1)
         text = (
-            "{} **{}**:\n".format("Here is the help for", HELPABLE[module].__MODULE__)
+            "{} **{}**:\n".format(
+                "Here is the help for", HELPABLE[module].__MODULE__
+            )
             + HELPABLE[module].__HELP__
         )
 
@@ -326,7 +342,9 @@ General command are:
     elif back_match:
         await query.message.edit(
             text=top_text,
-            reply_markup=InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help")),
+            reply_markup=InlineKeyboardMarkup(
+                paginate_modules(0, HELPABLE, "help")
+            ),
             disable_web_page_preview=True,
         )
 

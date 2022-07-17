@@ -46,7 +46,9 @@ async def paste_func(_, message: Message):
     r = message.reply_to_message
 
     if not r.text and not r.document:
-        return await eor(message, text="Only text and documents are supported.")
+        return await eor(
+            message, text="Only text and documents are supported."
+        )
 
     m = await eor(message, text="Pasting...")
 

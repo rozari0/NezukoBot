@@ -69,7 +69,9 @@ __HELP__ = """
 @capture_err
 async def anime(client, message: Message):
     if len(message.command) < 2:
-        return await message.reply_text("Send **/Anime AnimeName** to get info.")
+        return await message.reply_text(
+            "Send **/Anime AnimeName** to get info."
+        )
     jikan = Jikan()
     message.command.pop(0)
     search_result = requests.get(
@@ -126,7 +128,9 @@ async def anime(client, message: Message):
 @capture_err
 async def manga(client, message: Message):
     if len(message.command) < 2:
-        return await message.reply_text("Send **/Manga MangaName** to get info.")
+        return await message.reply_text(
+            "Send **/Manga MangaName** to get info."
+        )
     jikan = Jikan()
     message.command.pop(0)
     search_result = requests.get(
