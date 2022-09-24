@@ -24,6 +24,7 @@ SOFTWARE.
 
 from bs4 import BeautifulSoup
 from pyrogram import filters
+from pyrogram.enums import ParseMode
 
 from nezuko import app
 from nezuko.core.decorators.errors import capture_err
@@ -45,4 +46,4 @@ async def catfacts(client, message):
     Sed = "".join(
         "<code>" + match.get_text() + "</code>\n\n" for match in result
     )
-    return await message.reply(Sed, parse_mode="html")
+    return await message.reply(Sed, parse_mode=ParseMode.HTML)
