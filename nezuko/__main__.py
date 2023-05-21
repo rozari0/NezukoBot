@@ -104,22 +104,22 @@ home_keyboard_pm = InlineKeyboardMarkup(
     [
         [
             InlineKeyboardButton(
-                text="Commands ❓", callback_data="bot_commands"
+                text="COMMONDS", callback_data="bot_commands"
             ),
             InlineKeyboardButton(
-                text="Repo ❤️",
-                url="https://github.com/rozari0/NezukoBot",
+                text="SOURCE",
+                url="https://graph.org/file/a326f6f30a5f2787772d4.jpg",
             ),
         ],
         [
             InlineKeyboardButton(
-                text="System Stats 🖥",
+                text="SYSTEM STATS",
                 callback_data="stats_callback",
             ),
         ],
         [
             InlineKeyboardButton(
-                text="Add Me To Your Group⚡",
+                text="ADD ME TO YOUR GROUP",
                 url=f"http://t.me/{BOT_USERNAME}?startgroup=new",
             )
         ],
@@ -137,17 +137,17 @@ keyboard = InlineKeyboardMarkup(
     [
         [
             InlineKeyboardButton(
-                text="Help ❓",
+                text="HELP",
                 url=f"t.me/{BOT_USERNAME}?start=help",
             ),
             InlineKeyboardButton(
-                text="Repo 🛠",
-                url="https://github.com/rozari0/NezukoBot",
+                text="SOURCE",
+                url="https://graph.org/file/a326f6f30a5f2787772d4.jpg",
             ),
         ],
         [
             InlineKeyboardButton(
-                text="System Stats 💻",
+                text="SYSTEM STATS",
                 callback_data="stats_callback",
             ),
         ],
