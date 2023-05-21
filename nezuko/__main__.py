@@ -104,22 +104,22 @@ home_keyboard_pm = InlineKeyboardMarkup(
     [
         [
             InlineKeyboardButton(
-                text="COMMONDS", callback_data="bot_commands"
+                text="𝐂𝐨𝐦𝐦𝐨𝐧𝐝𝐬", callback_data="bot_commands"
             ),
             InlineKeyboardButton(
-                text="SOURCE",
-                url="https://graph.org/file/a326f6f30a5f2787772d4.jpg",
+                text="𝐒𝐮𝐩𝐩𝐨𝐫𝐭 𝐆𝐫𝐨𝐮𝐩",
+                url="https://t.me/Classical_Kingdom",
             ),
         ],
         [
             InlineKeyboardButton(
-                text="SYSTEM STATS",
+                text="𝐒𝐲𝐬𝐭𝐞𝐦 𝐒𝐭𝐚𝐭𝐬",
                 callback_data="stats_callback",
             ),
         ],
         [
             InlineKeyboardButton(
-                text="ADD ME TO YOUR GROUP",
+                text="𝐀𝐝𝐝 𝐌𝐞 𝐓𝐨 𝐘𝐨𝐮𝐫 𝐆𝐫𝐨𝐮𝐩",
                 url=f"http://t.me/{BOT_USERNAME}?startgroup=new",
             )
         ],
@@ -137,17 +137,17 @@ keyboard = InlineKeyboardMarkup(
     [
         [
             InlineKeyboardButton(
-                text="HELP",
+                text="𝐇𝐞𝐥𝐩",
                 url=f"t.me/{BOT_USERNAME}?start=help",
             ),
             InlineKeyboardButton(
-                text="SOURCE",
-                url="https://graph.org/file/a326f6f30a5f2787772d4.jpg",
+                text="𝐒𝐮𝐩𝐩𝐨𝐫𝐭 𝐆𝐫𝐨𝐮𝐩",
+                url="https://t.me/Classical_Kingdom",
             ),
         ],
         [
             InlineKeyboardButton(
-                text="SYSTEM STATS",
+                text="𝐒𝐲𝐬𝐭𝐞𝐦 𝐒𝐭𝐚𝐭𝐬",
                 callback_data="stats_callback",
             ),
         ],
