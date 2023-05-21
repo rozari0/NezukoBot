@@ -77,7 +77,7 @@ python3 -m nezuko
 
 <h1>
     <p align="center">
-        <a href="https://heroku.com/deploy?template=https://github.com/rozari0/NezukoBot">
+        <a href="https://heroku.com/deploy?template=https://github.com/TobiasRutern/NezukoBot">
             <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
         </a>
     </p>
